@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BetAccessor.cs" />
     <Compile Include="CFLSuiteDB.cs" />
     <Compile Include="PlayerAccessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

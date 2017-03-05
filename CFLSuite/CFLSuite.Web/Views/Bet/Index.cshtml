@@ -1,7 +1,46 @@
-﻿
+﻿@using CFLSuite.DataContracts.Models
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Bets";
 }
 
-<h2>Bet</h2>
+<h2>@ViewBag.Title</h2>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+            @(Html.Kendo().Grid<BetGridModel>()
+                .Name("betGrid")
+                .NoRecords("No Bets")
+                .Columns(col =>
+                {
+                    col.Bound(c => c.Started);
+                    col.Bound(c => c.ThrowDescription);
+                    col.Bound(c => c.WinnerName);
+                    col.Bound(c => c.WinCount);
+                })
+                .Scrollable()
+                .Resizable(r => r.Columns(true))
+                .ColumnMenu()
+                .Filterable()
+                .Sortable()
+                .Groupable()
+                .ToolBar(t => t.Create().Text("Add Bet"))
+                .Editable(e =>
+                {
+                    e.Mode(GridEditMode.PopUp)
+                })
+                .DataSource(ds => ds.Ajax()
+                    .Create(c => c.Action("AddBet", "Bet"))
+                    .Read(r => r.Action("GetBetGridModel", "Bet"))
+                    .Destroy(d => d.Action("DeleteBet", "Bet"))
+                    .Update(u => u.Action("UpdateBet", "Bet"))
+                    .Model(m =>
+                    {
+                        m.Id(i => i.BetID);
+                    })
+                )
+    )
+        </div>
+    </div>
+</div>
 

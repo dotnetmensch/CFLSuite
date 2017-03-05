@@ -171,6 +171,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Bet\Index.cshtml" />
     <Content Include="Views\Player\Index.cshtml" />
+    <Content Include="Views\Bet\SaveBet.cshtml" />
+    <Content Include="Views\Bet\AddBet.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Site.css" />

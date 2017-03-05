@@ -1,4 +1,7 @@
-﻿using System;
+﻿using CFLSuite.Service;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,6 +15,13 @@ namespace CFLSuite.Web.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult GetBetGridModels([DataSourceRequest] DataSourceRequest req)
+        {
+            var result = new BetService().GetBetGridModels();
+            return Json(result.ToDataSourceResult(req));
         }
     }
 }
