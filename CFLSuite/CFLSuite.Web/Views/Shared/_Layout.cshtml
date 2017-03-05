@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html> 
     <head>
-        <title>@ViewBag.Title - My Telerik MVC Application</title>
+        <title>@ViewBag.Title - CFL Suite</title>
         <link href="@Url.Content("~/Content/bootstrap.css")" rel="stylesheet" type="text/css" />
 
         @* Content-box fixes as per http://docs.telerik.com/kendo-ui/third-party/using-kendo-with-twitter-bootstrap article  *@
@@ -28,7 +28,7 @@
             <div class="container">
                 <div class="navbar-header">
                     <button id="configure" class="k-rpanel-toggle k-button btn-toggle"><span class="k-icon k-i-hbars"></span></button>
-                    @Html.ActionLink("CFL Suite", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                    @Html.ActionLink("CFL Suite", "Index", "Home", new { @class = "navbar-brand" })
                 </div>
 
                 <div id="responsive-panel" class="navbar-left">
@@ -36,8 +36,8 @@
                                 .Name("Menu")
                                 .Items(items =>
                                 {
-                                    items.Add().Text("Home").Action("Index", "Home", new { area = "" });
-                                   
+                                    items.Add().Text("Home").Action("Index", "Home");
+                                    items.Add().Text("Players").Action("Index", "Player");
                                 })
                     )
                 </div>

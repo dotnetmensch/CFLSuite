@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[RedemptionParticipant]
 (
-	[RedemptionParticipantID] INT NOT NULL, 
+	[RedemptionParticipantID] INT NOT NULL IDENTITY, 
     [PlayerID] INT NOT NULL, 
     [RedemptionID] INT NOT NULL, 
     [Success] BIT NOT NULL, 

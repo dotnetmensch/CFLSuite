@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,8 @@ namespace CFLSuite.Data
         public CFLSuiteDB()
             :base("name=CFLSuiteDb")
         {
+            base.Configuration.LazyLoadingEnabled = false;
+            base.Configuration.ProxyCreationEnabled = false;
         }
 
         public DbSet<Player> Players { get; set; }
@@ -23,6 +26,13 @@ namespace CFLSuite.Data
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+
+            modelBuilder.Entity<Player>()
+                .HasMany(c => c.Redemptions)
+                .WithRequired(c => c.Player)
+                .HasForeignKey(c => c.PlayerID);
+
             base.OnModelCreating(modelBuilder);
         }
     }

@@ -1,0 +1,42 @@
+﻿@using CFLSuite.DataContracts.Entities
+@{
+    ViewBag.Title = "Players";
+}
+
+<h2>Players</h2>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+            @(Html.Kendo().Grid<Player>()
+    .Name("playerGrid")
+    .Columns(col =>
+    {
+        col.Bound(c => c.Name);
+        col.Command(c =>
+        {
+            c.Edit().UpdateText("Save");
+            c.Destroy();
+        });
+    })
+    .Editable(e =>
+    {
+        e.Mode(GridEditMode.InLine);
+        e.CreateAt(GridInsertRowPosition.Top);
+    })
+    .NoRecords("No players")
+    .Sortable()
+    .ToolBar(t => t.Create().Text("Add Player"))
+    .DataSource(ds => ds.Ajax()
+        .Create(c => c.Action("SavePlayer", "Player"))
+        .Destroy(d => d.Action("DeletePlayer", "Player"))
+        .Update(u => u.Action("SavePlayer", "Player"))
+        .Read(r => r.Action("GetPlayers", "Player"))
+        .Model(m =>
+        {
+            m.Id(i => i.PlayerID);
+        })
+        )
+            )
+        </div>
+    </div>
+</div>

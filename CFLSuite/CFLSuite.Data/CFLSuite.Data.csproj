@@ -50,7 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CFLSuiteDB.cs" />
-    <Compile Include="DataAccessor.cs" />
+    <Compile Include="PlayerAccessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

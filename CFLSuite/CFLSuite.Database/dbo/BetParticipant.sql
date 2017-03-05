@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[BetParticipant]
 (
-	[BetParticipantID] INT NOT NULL, 
+	[BetParticipantID] INT NOT NULL IDENTITY, 
     [BetID] INT NOT NULL, 
     [PlayerID] INT NOT NULL, 
     [Winner] BIT NOT NULL, 
