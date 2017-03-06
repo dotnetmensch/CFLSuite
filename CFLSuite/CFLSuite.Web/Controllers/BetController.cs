@@ -1,4 +1,5 @@
-﻿using CFLSuite.Service;
+﻿using CFLSuite.DataContracts.Entities;
+using CFLSuite.Service;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using System;
@@ -22,6 +23,13 @@ namespace CFLSuite.Web.Controllers
         {
             var result = new BetService().GetBetGridModels();
             return Json(result.ToDataSourceResult(req));
+        }
+
+        [HttpPost]
+        public ActionResult AddBet()
+        {
+            var model = new Bet();
+            return PartialView(model);
         }
     }
 }

@@ -1,7 +1,20 @@
-﻿
-@{
-    ViewBag.Title = "AddBet";
-}
+﻿@using CFLSuite.DataContracts.Entities
+@model Bet
 
-<h2>Add Bet</h2>
-
+<div class="container-fluid">
+    @using (Html.BeginForm("SaveBet", "Bet", FormMethod.Post, new { id = "addBetForm" }))
+    {
+        <div class="row">
+            <div class="col-xs-12">
+                @Html.LabelFor(m => m.BetDateTimeStarted)
+                @Html.Kendo().DateTimePickerFor(m => m.BetDateTimeStarted)
+            </div>
+            <div class="col-xs-12">
+                @Html.LabelFor(m => m.ThrowDescription)
+                @Html.Kendo().TextBoxFor(m => m.ThrowDescription)
+            </div>
+        </div>
+        @Html.Kendo().Button().Content("Save")
+        @Html.Kendo().Button().Content("Cancel").Events(e => e.Click("onCancelBet"))
+    }
+</div>

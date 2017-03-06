@@ -37,6 +37,7 @@
                                 .Items(items =>
                                 {
                                     items.Add().Text("Home").Action("Index", "Home");
+                                    items.Add().Text("Beting").Action("Index", "Bet");
                                     items.Add().Text("Players").Action("Index", "Player");
                                 })
                     )
@@ -67,6 +68,7 @@
         </script>
 
         @Scripts.Render("~/bundles/bootstrap")
+        @Scripts.Render("~/bundles/app")
         @RenderSection("scripts", required: false)
     </body>
 </html>

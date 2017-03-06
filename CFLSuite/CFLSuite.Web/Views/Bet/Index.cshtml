@@ -17,6 +17,7 @@
                     col.Bound(c => c.ThrowDescription);
                     col.Bound(c => c.WinnerName);
                     col.Bound(c => c.WinCount);
+                    col.Command(c => c.Destroy());
                 })
                 .Scrollable()
                 .Resizable(r => r.Columns(true))
@@ -24,16 +25,11 @@
                 .Filterable()
                 .Sortable()
                 .Groupable()
-                .ToolBar(t => t.Create().Text("Add Bet"))
-                .Editable(e =>
-                {
-                    e.Mode(GridEditMode.PopUp)
-                })
+                .ToolBar(t => t.Custom().Text("Add Bet").Name("addBet").HtmlAttributes(new { data_url = Url.Action("AddBet", "Bet")}))
+                .Events(e => e.DataBound("onBetGridDataBound"))
                 .DataSource(ds => ds.Ajax()
-                    .Create(c => c.Action("AddBet", "Bet"))
-                    .Read(r => r.Action("GetBetGridModel", "Bet"))
+                    .Read(r => r.Action("GetBetGridModels", "Bet"))
                     .Destroy(d => d.Action("DeleteBet", "Bet"))
-                    .Update(u => u.Action("UpdateBet", "Bet"))
                     .Model(m =>
                     {
                         m.Id(i => i.BetID);
