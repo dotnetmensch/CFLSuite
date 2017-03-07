@@ -1,4 +1,5 @@
 ﻿using CFLSuite.DataContracts.Entities;
+using CFLSuite.DataContracts.Models;
 using CFLSuite.Service;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
@@ -26,10 +27,65 @@ namespace CFLSuite.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddBet()
+        public ActionResult SaveBetGridModel([DataSourceRequest] DataSourceRequest req, BetGridModel model)
         {
-            var model = new Bet();
-            return PartialView(model);
+            var result = model;
+            try
+            {
+                result = new BetService().SaveBetGridModel(model);
+            }
+            catch(Exception e)
+            {
+                ModelState.AddModelError("Error", e);
+            }
+            return Json(new[] { result }.ToDataSourceResult(req));
+        }
+
+        [HttpGet]
+        public ActionResult AddThrows(int id)
+        {
+            Bet result = new BetService().GetBet(id);
+            return View(result);
+        }
+
+        [HttpPost]
+        public ActionResult GetThrowModels([DataSourceRequest] DataSourceRequest req, int id)
+        {
+            var result = new List<ThrowModel>();
+            result = new BetService().GetThrowModels(id);
+            return Json(result.ToDataSourceResult(req));
+        }
+
+        [HttpPost]
+        public ActionResult SaveThrowModel([DataSourceRequest] DataSourceRequest req, ThrowModel model)
+        {
+            var result = model;
+            try
+            {
+                result = new BetService().SaveThrowModel(model);
+            }
+            catch(Exception e)
+            {
+                ModelState.AddModelError("Error", e);
+            }
+
+            return Json(new[] { result }.ToDataSourceResult(req, ModelState));
+        }
+
+        [HttpPost]
+        public ActionResult DeleteThrowModel([DataSourceRequest] DataSourceRequest req, ThrowModel model)
+        {
+            var result = model;
+            try
+            {
+                result = new BetService().DeleteThrowModel(model);
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("Error", e);
+            }
+
+            return Json(new[] { result }.ToDataSourceResult(req, ModelState));
         }
     }
 }

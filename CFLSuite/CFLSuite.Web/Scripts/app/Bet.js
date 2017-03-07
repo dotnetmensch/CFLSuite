@@ -26,3 +26,7 @@ function onAddBetDialog(e) {
 function onCancelBet(e) {
     $('#addBetWindow').data('kendoWindow').close();
 }
+
+function onAddThrowsClick(e) {
+
+}

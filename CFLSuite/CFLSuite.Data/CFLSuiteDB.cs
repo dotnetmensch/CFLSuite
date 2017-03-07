@@ -18,22 +18,30 @@ namespace CFLSuite.Data
             base.Configuration.ProxyCreationEnabled = false;
         }
 
-        public DbSet<Player> Players { get; set; }
         public DbSet<Bet> Bets { get; set; }
-        public DbSet<BetParticipant> BetParticipants { get; set; }
-        public DbSet<Redemption> Redemptions { get; set; }
-        public DbSet<RedemptionParticipant> RedemptionParticipants { get; set; }
+        public DbSet<Player> Players { get; set; }
         public DbSet<ThrowType> ThrowTypes { get; set; }
+        public DbSet<Throw> Throws { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
             modelBuilder.Entity<Player>()
-                .HasMany(c => c.Redemptions)
-                .WithRequired(c => c.Player)
-                .HasForeignKey(c => c.PlayerID);
+                .HasMany(e => e.Throws)
+                .WithRequired(e => e.ThrowingPlayer)
+                .HasForeignKey(e => e.ThrowingPlayerID);
 
+            modelBuilder.Entity<Player>()
+                .HasMany(e => e.OtherPlayersThrows)
+                .WithOptional(e => e.OwedPlayer)
+                .HasForeignKey(e => e.OwedPlayerID);
+
+            modelBuilder.Entity<Throw>()
+                .HasMany(e => e.RedemptionThrows)
+                .WithOptional(e => e.RedemptionForThrow)
+                .HasForeignKey(e => e.RedemptionForThrowID);
+            
             base.OnModelCreating(modelBuilder);
         }
     }

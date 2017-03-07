@@ -736,10 +736,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Bet\Index.cshtml" />
     <Content Include="Views\Player\Index.cshtml" />
-    <Content Include="Views\Bet\SaveBet.cshtml" />
-    <Content Include="Views\Bet\AddBet.cshtml" />
     <Content Include="Scripts\kendo\2017.1.223\jquery.min.map" />
     <Content Include="Scripts\kendo\2017.1.223\kendo.all.min.js.map" />
     <Content Include="Scripts\kendo\2017.1.223\kendo.angular.min.js.map" />
@@ -861,6 +858,8 @@
     <Content Include="Scripts\kendo\2017.1.223\kendo.web.min.js.map" />
     <Content Include="Scripts\kendo\2017.1.223\kendo.window.min.js.map" />
     <Content Include="Views\ThrowType\Index.cshtml" />
+    <Content Include="Views\Bet\Index.cshtml" />
+    <Content Include="Views\Bet\AddThrows.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Site.css" />

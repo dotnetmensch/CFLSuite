@@ -10,5 +10,7 @@ namespace CFLSuite.DataContracts.Entities
     {
         public int ThrowTypeID { get; set; }
         public string Description { get; set; }
+
+        public virtual ICollection<Throw> Throws { get; set; }
     }
 }

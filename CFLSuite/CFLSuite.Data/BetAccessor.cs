@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CFLSuite.DataContracts.Entities;
+using CFLSuite.DataContracts;
 
 namespace CFLSuite.Data
 {
@@ -14,17 +16,48 @@ namespace CFLSuite.Data
             var result = new List<BetGridModel>();
             using (var db = new CFLSuiteDB())
             {
-                result = db.Bets.Select(x => new BetGridModel
-                {
-                    BetID = x.BetID,
-                    Started = x.BetDateTimeStarted,
-                    ThrowTypeID = x.ThrowTypeID,
-                    ThrowTypeDescription = x.ThrowType.Description,
-                    WinnerPlayerID = x.BetParticipants.FirstOrDefault(y => y.Winner).Player.PlayerID,
-                    WinnerName = x.BetParticipants.FirstOrDefault(y => y.Winner).Player.Name,
-                    WinCount = x.BetParticipants.Count(y => !y.Winner)
-                }).ToList();
+                result = db.Bets.ToBetGridModel().ToList();
             }
+            return result;
+        }
+
+        public BetGridModel SaveBetGridModel(BetGridModel model)
+        {
+            model.ValidateModel();
+            BetGridModel result = null;
+            using (var db = new CFLSuiteDB())
+            {
+                Bet dataModel = null;
+                if(model.BetID > 0)
+                {
+                    dataModel = db.Bets.First(x => x.BetID == model.BetID);
+                    dataModel.BetStarted = model.BetStarted;
+                    dataModel.Description = model.Description;
+                }
+                else
+                {
+                    dataModel = new Bet
+                    {
+                        BetStarted = model.BetStarted,
+                        Description = model.Description
+                    };
+                    db.Bets.Add(dataModel);
+                }
+                db.SaveChanges();
+                result = db.Bets.Where(x => x.BetID == dataModel.BetID).ToBetGridModel().First();
+            }
+
+            return result;
+        }
+
+        public Bet GetBet(int betID)
+        {
+            Bet result = null;
+            using (var db = new CFLSuiteDB())
+            {
+                result = db.Bets.First(x => x.BetID == betID);
+            }
+
             return result;
         }
     }

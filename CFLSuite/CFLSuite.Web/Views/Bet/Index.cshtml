@@ -13,11 +13,13 @@
                 .NoRecords("No Bets")
                 .Columns(col =>
                 {
-                    col.Bound(c => c.Started);
-                    col.Bound(c => c.ThrowTypeDescription);
-                    col.Bound(c => c.WinnerName);
-                    col.Bound(c => c.WinCount);
-                    col.Command(c => c.Destroy());
+                    col.Bound(c => c.BetStarted);
+                    col.Bound(c => c.Description);
+                    col.Command(c =>
+                    {
+                        c.Edit();
+                        c.Custom("addThrows").Text("Add Throws").Click("onAddThrowsClick");
+                    });
                 })
                 .Scrollable()
                 .Resizable(r => r.Columns(true))
@@ -25,17 +27,21 @@
                 .Filterable()
                 .Sortable()
                 .Groupable()
-                .ToolBar(t => t.Custom().Text("Add Bet").Url("#").Name("addBet").HtmlAttributes(new { id = "addBet", data_url = Url.Action("AddBet", "Bet")}))
+                .Editable(e => e.Mode(GridEditMode.InLine))
+                .ToolBar(t => t.Create().Text("Add Bet"))
                 .Events(e => e.DataBound("onBetGridDataBound"))
                 .DataSource(ds => ds.Ajax()
                     .Read(r => r.Action("GetBetGridModels", "Bet"))
-                    .Destroy(d => d.Action("DeleteBet", "Bet"))
+                    .Create(c => c.Action("SaveBetGridModel", "Bet"))
+                    .Update(u => u.Action("SaveBetGridModel", "Bet"))
                     .Model(m =>
                     {
                         m.Id(i => i.BetID);
+                        m.Field(f => f.WinnerName).Editable(false);
+                        m.Field(f => f.WinCount).Editable(false);
                     })
                 )
-    )
+            )
         </div>
     </div>
 </div>

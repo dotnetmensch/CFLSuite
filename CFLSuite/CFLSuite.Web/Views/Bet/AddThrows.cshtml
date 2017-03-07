@@ -1,0 +1,45 @@
+﻿@using CFLSuite.DataContracts.Entities
+@using CFLSuite.DataContracts.Models
+@model Bet
+@{
+    ViewBag.Title = "Add Throws";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-xs-6">
+            @Html.LabelFor(m => m.BetStarted): @Html.DisplayFor(m => m.BetStarted)
+        </div>
+        <div class="col-xs-12 col-xs-6">
+            @Html.LabelFor(m => m.Description): @Html.DisplayFor(m => m.Description)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            @(Html.Kendo().TreeList<ThrowModel>()
+                .Name("throwBetGrid")
+                .Columns(col =>
+                {
+                    col.Add().Field(c => c.ThrowingPlayerID).Template("#=ThrowingPlayerName#");
+                    col.Add().Field(c => c.ThrowTypeID).Template("#=ThrowTypeDescription#").Editor(
+                        Html.Kendo().DropDownList()
+                        .Name("ThrowTypeID")
+                        .DataTextField("Description")
+                        .DataValueField("ID")
+                        .Value("#=ThrowTypeID#")
+                        .DataSource(ds => ds.Read(r => r.Action("GetThrowTypeOptions", "ThrowType")))
+                        .ToHtmlString()
+                        );
+                })
+                .DataSource(ds => ds
+                    .Read(r => r.Action("GetThrowModels", "Bet", new { id = Model.BetID }))
+                    .Update(r => r.Action("SaveThrowModel", "Bet"))
+                    .Create(r => r.Action("SaveThrowModel", "Bet"))
+                    .Destroy(d => d.Action("DeleteThrowModel", "Bet"))
+                )
+            )
+        </div>
+    </div>
+</div>

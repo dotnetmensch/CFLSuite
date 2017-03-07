@@ -61,12 +61,10 @@
     <Folder Include="InitData" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Bet.sql" />
     <Build Include="dbo\Player.sql" />
-    <Build Include="dbo\BetParticipant.sql" />
-    <Build Include="dbo\Redemption.sql" />
-    <Build Include="dbo\RedemptionParticipant.sql" />
     <Build Include="dbo\ThrowType.sql" />
+    <Build Include="dbo\Throw.sql" />
+    <Build Include="dbo\Bet.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="CFLSuite.Database.refactorlog" />

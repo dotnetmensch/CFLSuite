@@ -14,8 +14,7 @@ namespace CFLSuite.DataContracts.Entities
         public int PlayerID { get; set; }
         public string Name { get; set; }
 
-        public virtual ICollection<BetParticipant> BetParticipants { get; set; }
-        public virtual ICollection<RedemptionParticipant> RedemptionParticipants { get; set; }
-        public virtual ICollection<Redemption> Redemptions { get; set; }
+        public virtual ICollection<Throw> Throws { get; set; }
+        public virtual ICollection<Throw> OtherPlayersThrows { get; set; }
     }
 }

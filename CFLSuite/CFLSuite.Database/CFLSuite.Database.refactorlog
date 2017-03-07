@@ -70,4 +70,39 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="ThrowTypeID" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="0c7000a1-9d85-43f8-94e1-a1dd0040730e" ChangeDateTime="03/07/2017 19:22:58">
+    <Property Name="ElementName" Value="[dbo].[Throw].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Throw]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ThrowID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0361ce16-5853-4f6f-87ee-5fe3a08a4ea8" ChangeDateTime="03/07/2017 19:43:57">
+    <Property Name="ElementName" Value="[dbo].[Bet].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Bet]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="BetID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="9d023eb4-128a-489b-a5da-8fad9426eaf7" ChangeDateTime="03/07/2017 19:44:45">
+    <Property Name="ElementName" Value="[dbo].[Bet].[DateTimeStarted]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Bet]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="GetStarted" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7e0edade-bf23-4aef-90a1-cbed2494ab7c" ChangeDateTime="03/07/2017 19:45:40">
+    <Property Name="ElementName" Value="[dbo].[Bet].[ThrowTypeID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Bet]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Description" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="915aceaa-1d4a-4ebc-b216-892fe0e33279" ChangeDateTime="03/07/2017 19:45:55">
+    <Property Name="ElementName" Value="[dbo].[Bet].[BetDateTimeStarted]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Bet]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="BetStarted" />
+  </Operation>
 </Operations>
