@@ -18,7 +18,8 @@ namespace CFLSuite.Data
                 {
                     BetID = x.BetID,
                     Started = x.BetDateTimeStarted,
-                    ThrowDescription = x.ThrowDescription,
+                    ThrowTypeID = x.ThrowTypeID,
+                    ThrowTypeDescription = x.ThrowType.Description,
                     WinnerPlayerID = x.BetParticipants.FirstOrDefault(y => y.Winner).Player.PlayerID,
                     WinnerName = x.BetParticipants.FirstOrDefault(y => y.Winner).Player.Name,
                     WinCount = x.BetParticipants.Count(y => !y.Winner)

@@ -58,6 +58,7 @@
   <ItemGroup>
     <Folder Include="Properties" />
     <Folder Include="dbo" />
+    <Folder Include="InitData" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Bet.sql" />
@@ -65,11 +66,16 @@
     <Build Include="dbo\BetParticipant.sql" />
     <Build Include="dbo\Redemption.sql" />
     <Build Include="dbo\RedemptionParticipant.sql" />
+    <Build Include="dbo\ThrowType.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="CFLSuite.Database.refactorlog" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CFLSuite.Database.publish.xml" />
+    <None Include="InitData\ThrowType.data.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Script.PostDeployment.sql" />
   </ItemGroup>
 </Project>

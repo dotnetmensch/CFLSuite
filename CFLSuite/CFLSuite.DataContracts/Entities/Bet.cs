@@ -11,8 +11,10 @@ namespace CFLSuite.DataContracts.Entities
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int BetID { get; set; }
-        public string ThrowDescription { get; set; }
+        public int ThrowTypeID { get; set; }
         public DateTime BetDateTimeStarted { get; set; }
+
+        public virtual ThrowType ThrowType { get; set; }
 
         public virtual ICollection<BetParticipant> BetParticipants { get; set; }
     }

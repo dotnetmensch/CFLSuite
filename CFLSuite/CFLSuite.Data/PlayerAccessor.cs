@@ -1,6 +1,8 @@
-﻿using CFLSuite.DataContracts.Entities;
+﻿using CFLSuite.DataContracts;
+using CFLSuite.DataContracts.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,33 +24,30 @@ namespace CFLSuite.Data
 
         public Player SavePlayer(Player model)
         {
+            model.ValidateModel();
             Player result = null;
             using (var db = new CFLSuiteDB())
             {
-                if(model.PlayerID < 0)
+                var dup = db.Players.FirstOrDefault(x => x.Name == model.Name && x.PlayerID != model.PlayerID);
+                if(dup == null)
                 {
-                    var existing = db.Players.First(x => x.PlayerID == model.PlayerID);
-                    existing.Name = model.Name;
+                    if (model.PlayerID < 0)
+                    {
+                        db.Players.Attach(model);
+                        db.Entry(model).State = EntityState.Modified;
+                    }
+                    else
+                    {
+                        db.Players.Add(model);
+                    }
                 }
                 else
                 {
-                    db.Players.Add(model);
+                    throw new Exception("That player already exists.");
                 }
                 db.SaveChanges();
-                result = db.Players.First(x => x.PlayerID == model.PlayerID);
+                result = model;
             }
-            return result;
-        }
-
-        public Player DeletePlayer(Player model)
-        {
-            var result = model;
-            using (var db = new CFLSuiteDB())
-            {
-                var existing = db.Players.First(x => x.PlayerID == model.PlayerID);
-                db.Players.Remove(existing);
-            }
-
             return result;
         }
     }

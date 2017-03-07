@@ -15,7 +15,6 @@
         col.Command(c =>
         {
             c.Edit().UpdateText("Save");
-            c.Destroy();
         });
     })
     .Editable(e =>
@@ -28,7 +27,6 @@
     .ToolBar(t => t.Create().Text("Add Player"))
     .DataSource(ds => ds.Ajax()
         .Create(c => c.Action("SavePlayer", "Player"))
-        .Destroy(d => d.Action("DeletePlayer", "Player"))
         .Update(u => u.Action("SavePlayer", "Player"))
         .Read(r => r.Action("GetPlayers", "Player"))
         .Model(m =>

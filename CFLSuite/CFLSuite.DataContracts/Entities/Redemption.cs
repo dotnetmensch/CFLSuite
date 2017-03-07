@@ -14,9 +14,11 @@ namespace CFLSuite.DataContracts.Entities
         public int? BetID { get; set; }
         public string Description { get; set; }
         public int PlayerID { get; set; }
+        public int ThrowTypeID { get; set; }
 
         public virtual Bet Bet { get; set; }
         public virtual Player Player { get; set; }
+        public virtual ThrowType ThrowType { get; set; }
 
         public virtual ICollection<RedemptionParticipant> RedemptionParticipants { get; set; }
 

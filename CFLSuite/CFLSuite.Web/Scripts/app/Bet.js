@@ -15,7 +15,7 @@ function onAddBetDialog(e) {
         modal: true,
         visible: false,
         refresh: function (e) {
-            dialog.open.center();
+            dialog.open().center();
         },
         close: function (e) {
             dialog.destroy();

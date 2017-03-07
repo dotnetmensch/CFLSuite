@@ -1,0 +1,42 @@
+﻿@using CFLSuite.DataContracts.Entities
+@{
+    ViewBag.Title = "Throw Types";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+            @(Html.Kendo().Grid<ThrowType>()
+                .Name("throwTypeGrid")
+                .Columns(col =>
+                {
+                    col.Bound(c => c.Description);
+                    col.Command(c =>
+                    {
+                        c.Edit().UpdateText("Save");
+                    });
+                })
+                .Editable(e =>
+                {
+                    e.Mode(GridEditMode.InLine);
+                    e.CreateAt(GridInsertRowPosition.Top);
+                })
+                .NoRecords("No players")
+                .Sortable()
+                .ToolBar(t => t.Create().Text("Add Throw Type"))
+                .DataSource(ds => ds.Ajax()
+                    .Create(c => c.Action("SaveThrowType", "ThrowType"))
+                    .Update(u => u.Action("SaveThrowType", "ThrowType"))
+                    .Read(r => r.Action("GetThrowTypes", "ThrowType"))
+                    .Model(m =>
+                    {
+                        m.Id(i => i.ThrowTypeID);
+                    })
+                    )
+            )
+        </div>
+    </div>
+</div>
+

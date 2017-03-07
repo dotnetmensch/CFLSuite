@@ -21,22 +21,23 @@ namespace CFLSuite.Web.Controllers
         [HttpPost]
         public ActionResult GetPlayers([DataSourceRequest] DataSourceRequest req)
         {
-            var result = new PlayerService().GetPlayers();
+            var result = new SetupService().GetPlayers();
             return Json(result.ToDataSourceResult(req));
         }
 
         [HttpPost]
         public ActionResult SavePlayer([DataSourceRequest] DataSourceRequest req, Player model)
         {
-            var result = new PlayerService().SavePlayer(model);
-            return Json(new[] { result }.ToDataSourceResult(req));
-        }
-
-        [HttpPost]
-        public ActionResult DeletePlayer([DataSourceRequest] DataSourceRequest req, Player model)
-        {
-            var result = new PlayerService().DeletePlayer(model);
-            return Json(new[] { result }.ToDataSourceResult(req));
+            Player result = model;
+            try
+            {
+                result = new SetupService().SavePlayer(model);
+            }
+            catch(Exception e)
+            {
+                ModelState.AddModelError("Error", e.Message);
+            }
+            return Json(new[] { result }.ToDataSourceResult(req, ModelState));
         }
     }
 }

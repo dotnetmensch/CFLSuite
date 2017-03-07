@@ -23,6 +23,7 @@ namespace CFLSuite.Data
         public DbSet<BetParticipant> BetParticipants { get; set; }
         public DbSet<Redemption> Redemptions { get; set; }
         public DbSet<RedemptionParticipant> RedemptionParticipants { get; set; }
+        public DbSet<ThrowType> ThrowTypes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
