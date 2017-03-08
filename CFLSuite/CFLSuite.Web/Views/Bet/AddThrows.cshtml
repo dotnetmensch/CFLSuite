@@ -22,24 +22,27 @@
                 .Name("throwBetGrid")
                 .Columns(col =>
                 {
-                    col.Add().Field(c => c.ThrowingPlayerID).Template("#=ThrowingPlayerName#");
+                    col.Add().Field(c => c.ThrowingPlayerID).Template("#=ThrowingPlayerName#").Width(150);
                     col.Add().Field(c => c.ThrowTypeID).Template("#=ThrowTypeDescription#");
+                    col.Add().Field(c => c.Points).Width(75);
+                    col.Add().Field(c => c.Notes);
+                    col.Add().Field(c => c.ReceivingPlayerID).Template("#=ReceivingPlayerName#").Width(150);
+                    col.Add().Command(c => c.CreateChild().Text("Add Redemption"));
                     col.Add().Command(c =>
                     {
                         c.Edit();
-                        c.CreateChild().Text("Add Redemption");
                         c.Destroy();
                     });
                 })
-                .Toolbar(t => t.Create().Text("Add Throw"))
                 .ColumnMenu()
-                .Resizable(true)
-                .Selectable(s => s.Mode(TreeListSelectionMode.Single))
+                .Toolbar(t => t.Create().Text("Add Throw"))
                 .Editable(e =>
                 {
-                    e.Mode("inline");
+                    e.Mode("popup");
                     e.Move(true);
+                    e.TemplateName("EditThrow");
                 })
+                .Resizable(true)
                 .DataSource(ds => ds
                     .Read(r => r.Action("GetThrowModels", "Bet", new { id = Model.BetID }))
                     .Update(r => r.Action("SaveThrowModel", "Bet"))
@@ -48,7 +51,8 @@
                     .Model(m =>
                     {
                         m.Id(i => i.ThrowID);
-                        m.ParentId(i => i.RedemptionForThrowID);
+                        m.Field(f => f.BetID).DefaultValue(Model.BetID);
+                        m.ParentId(p => p.RedemptionForThrowID);
                     })
                 )
             )

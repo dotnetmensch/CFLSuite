@@ -181,6 +181,10 @@ p .k-button {
 }
 /* #endregion */
 
+.top-buffer{
+    padding-top: 2em;
+}
+
 @media (max-width: 767px) {
     #responsive-panel .k-item {
         float: none;

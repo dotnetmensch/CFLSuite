@@ -19,13 +19,13 @@ namespace CFLSuite.DataContracts.Entities
         public int ThrowTypeID { get; set; }
         public int ThrowingPlayerID { get; set; }
         public int Points { get; set; }
-        public int? OwedPlayerID { get; set; }
+        public int? ReceivingPlayerID { get; set; }
         public int? RedemptionForThrowID { get; set; }
         public string Notes { get; set; }
 
         public virtual Player ThrowingPlayer { get; set; }
         public virtual ThrowType ThrowType { get; set; }
-        public virtual Player OwedPlayer { get; set; }
+        public virtual Player ReceivingPlayer { get; set; }
         public virtual Throw RedemptionForThrow { get; set; }
         public virtual Bet Bets { get; set; }
         public virtual ICollection<Throw> RedemptionThrows { get; set; }

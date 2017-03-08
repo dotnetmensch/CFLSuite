@@ -33,9 +33,9 @@ namespace CFLSuite.Data
                 .HasForeignKey(e => e.ThrowingPlayerID);
 
             modelBuilder.Entity<Player>()
-                .HasMany(e => e.OtherPlayersThrows)
-                .WithOptional(e => e.OwedPlayer)
-                .HasForeignKey(e => e.OwedPlayerID);
+                .HasMany(e => e.PayoutToPlayers)
+                .WithOptional(e => e.ReceivingPlayer)
+                .HasForeignKey(e => e.ReceivingPlayerID);
 
             modelBuilder.Entity<Throw>()
                 .HasMany(e => e.RedemptionThrows)

@@ -3,5 +3,6 @@
 @(Html.Kendo().DropDownListFor(m => m)
         .DataTextField("Description")
         .DataValueField("ThrowTypeID")
-        .DataSource(ds => ds.Read(r => r.Action("GetThrowType", "ThrowType")))
+        .OptionLabel("Select a throw")
+        .DataSource(ds => ds.Read(r => r.Action("GetThrowTypes", "ThrowType")))
 )

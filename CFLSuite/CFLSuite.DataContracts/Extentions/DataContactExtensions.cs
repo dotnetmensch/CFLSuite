@@ -32,14 +32,15 @@ namespace CFLSuite.DataContracts
             {
                 BetID = x.BetID,
                 Notes = x.Notes,
-                OwedPlayerID = x.OwedPlayerID,
+                ReceivingPlayerID = x.ReceivingPlayerID,
                 Points = x.Points,
                 RedemptionForThrowID = x.RedemptionForThrowID,
                 ThrowID = x.ThrowID,
                 ThrowingPlayerID = x.ThrowingPlayerID,
                 ThrowingPlayerName = x.ThrowingPlayer.Name,
                 ThrowTypeDescription = x.ThrowType.Description,
-                ThrowTypeID = x.ThrowTypeID
+                ThrowTypeID = x.ThrowTypeID,
+                ReceivingPlayerName = x.ReceivingPlayer != null ? x.ReceivingPlayer.Name : string.Empty
             });
         }
 

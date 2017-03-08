@@ -105,4 +105,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="BetStarted" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="62eba8d4-6f66-4e42-9901-87ec7711ce48" ChangeDateTime="03/08/2017 01:29:48">
+    <Property Name="ElementName" Value="[dbo].[Throw].[OwedPlayerID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Throw]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[ReceivingPlayerID]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="570bb8a1-2696-496f-8173-2dab2f4c3015" ChangeDateTime="03/08/2017 01:30:20">
+    <Property Name="ElementName" Value="[dbo].[FK_Throw_OwedPlayer]" />
+    <Property Name="ElementType" Value="SqlForeignKeyConstraint" />
+    <Property Name="ParentElementName" Value="[dbo].[Throw]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[FK_Throw_ReceivingPlayer]" />
+  </Operation>
 </Operations>

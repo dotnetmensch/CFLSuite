@@ -44,7 +44,7 @@ namespace CFLSuite.Web.Controllers
         public ActionResult GetThrowTypes()
         {
             var result = new SetupService().GetThrowTypes();
-            return Json(result);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

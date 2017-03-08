@@ -22,7 +22,9 @@ namespace CFLSuite.DataContracts.Models
         public string ThrowingPlayerName { get; set; }
 
         public int Points { get; set; }
-        public int? OwedPlayerID { get; set; }
+        [DisplayName("Receiving Player")]
+        public int? ReceivingPlayerID { get; set; }
+        public string ReceivingPlayerName { get; set; }
         public int? RedemptionForThrowID { get; set; }
         public string Notes { get; set; }
     }

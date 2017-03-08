@@ -39,5 +39,12 @@ namespace CFLSuite.Web.Controllers
             }
             return Json(new[] { result }.ToDataSourceResult(req, ModelState));
         }
+
+        [HttpGet]
+        public ActionResult GetPlayers()
+        {
+            var result = new SetupService().GetPlayers();
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }

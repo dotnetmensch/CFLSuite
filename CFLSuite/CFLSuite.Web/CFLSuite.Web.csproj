@@ -863,6 +863,9 @@
     <Content Include="Views\Shared\EditorTemplates\DateTimeEditor.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\TextInput.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\ThrowTypeDropDown.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\PlayerDropDown.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\IntegerInput.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\EditThrow.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Site.css" />

@@ -13,13 +13,13 @@ namespace CFLSuite.DataContracts.Entities
         public Player()
         {
             Throws = new List<Throw>();
-            OtherPlayersThrows = new List<Throw>();
+            PayoutToPlayers = new List<Throw>();
         }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PlayerID { get; set; }
         public string Name { get; set; }
 
         public virtual ICollection<Throw> Throws { get; set; }
-        public virtual ICollection<Throw> OtherPlayersThrows { get; set; }
+        public virtual ICollection<Throw> PayoutToPlayers { get; set; }
     }
 }

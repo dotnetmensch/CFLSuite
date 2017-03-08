@@ -34,3 +34,7 @@ function onAddThrowsClick(e) {
     var betID = grid.dataItem(row).BetID;
     window.location.href = url + "/" + betID;
 }
+
+function onPlayerEdit() {
+
+}
