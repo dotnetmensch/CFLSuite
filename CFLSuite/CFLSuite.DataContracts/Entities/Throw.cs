@@ -11,23 +11,16 @@ namespace CFLSuite.DataContracts.Entities
     {
         public Throw()
         {
-            RedemptionThrows = new List<Throw>();
         }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ThrowID { get; set; }
-        public int? BetID { get; set; }
         public int ThrowTypeID { get; set; }
-        public int ThrowingPlayerID { get; set; }
-        public int Points { get; set; }
-        public int? ReceivingPlayerID { get; set; }
-        public int? RedemptionForThrowID { get; set; }
+        public int ParticipantID { get; set; }
+        public bool Success { get; set; }
         public string Notes { get; set; }
 
-        public virtual Player ThrowingPlayer { get; set; }
+        public virtual Participant Participant { get; set; }
         public virtual ThrowType ThrowType { get; set; }
-        public virtual Player ReceivingPlayer { get; set; }
-        public virtual Throw RedemptionForThrow { get; set; }
-        public virtual Bet Bets { get; set; }
-        public virtual ICollection<Throw> RedemptionThrows { get; set; }
+        public virtual ICollection<Bet> Bets { get; set; }
     }
 }

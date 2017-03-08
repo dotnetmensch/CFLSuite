@@ -36,9 +36,9 @@ namespace CFLSuite.Data
                     dataModel.BetID = model.BetID;
                     dataModel.Notes = model.Notes;
                     dataModel.ReceivingPlayerID = model.ReceivingPlayerID;
-                    dataModel.Points = model.Points;
+                    dataModel.Success = model.Points;
                     dataModel.RedemptionForThrowID = model.RedemptionForThrowID;
-                    dataModel.ThrowingPlayerID = model.ThrowingPlayerID;
+                    dataModel.ParticipantID = model.ThrowingPlayerID;
                     dataModel.ThrowTypeID = model.ThrowTypeID;
                 }
                 else
@@ -48,9 +48,9 @@ namespace CFLSuite.Data
                         BetID = model.BetID,
                         Notes = model.Notes,
                         ReceivingPlayerID = model.ReceivingPlayerID,
-                        Points = model.Points,
+                        Success = model.Points,
                         RedemptionForThrowID = model.RedemptionForThrowID,
-                        ThrowingPlayerID = model.ThrowingPlayerID,
+                        ParticipantID = model.ThrowingPlayerID,
                         ThrowTypeID = model.ThrowTypeID
                     };
                     db.Throws.Add(dataModel);

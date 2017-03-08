@@ -3,6 +3,8 @@ using CFLSuite.DataContracts.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,17 +32,17 @@ namespace CFLSuite.DataContracts
         {
             return throws.Select(x => new ThrowModel
             {
-                BetID = x.BetID,
-                Notes = x.Notes,
-                ReceivingPlayerID = x.ReceivingPlayerID,
-                Points = x.Points,
-                RedemptionForThrowID = x.RedemptionForThrowID,
-                ThrowID = x.ThrowID,
-                ThrowingPlayerID = x.ThrowingPlayerID,
-                ThrowingPlayerName = x.ThrowingPlayer.Name,
-                ThrowTypeDescription = x.ThrowType.Description,
-                ThrowTypeID = x.ThrowTypeID,
-                ReceivingPlayerName = x.ReceivingPlayer != null ? x.ReceivingPlayer.Name : string.Empty
+                //BetID = x.BetID,
+                //Notes = x.Notes,
+                //ReceivingPlayerID = x.ReceivingPlayerID,
+                //Points = x.Success,
+                //RedemptionForThrowID = x.RedemptionForThrowID,
+                //ThrowID = x.ThrowID,
+                //ThrowingPlayerID = x.ParticipantID,
+                //ThrowingPlayerName = x.Participant.Name,
+                //ThrowTypeDescription = x.ThrowType.Description,
+                //ThrowTypeID = x.ThrowTypeID,
+                //ReceivingPlayerName = x.ReceivingPlayer != null ? x.ReceivingPlayer.Name : string.Empty
             });
         }
 
@@ -51,13 +53,6 @@ namespace CFLSuite.DataContracts
                 BetID = x.BetID,
                 BetStarted = x.BetStarted,
                 Description = x.Description,
-                WinnerPlayerID = x.Throws.FirstOrDefault(t => t.Points == x.Throws.Max(y => y.Points)).ThrowingPlayerID,
-                WinnerName = x.Throws.FirstOrDefault(t => t.Points == x.Throws.Max(y => y.Points)).ThrowingPlayer.Name,
-                WinCount = x.Throws.Any() ?
-                    x.Throws.Where(y => y.ThrowingPlayerID != x.Throws.FirstOrDefault(t => t.Points == x.Throws.Max(z => z.Points)).ThrowingPlayerID)
-                    .Select(y => y.ThrowingPlayerID).Distinct().Count() :
-                    (int?)null
-                    
             });
         }
     }

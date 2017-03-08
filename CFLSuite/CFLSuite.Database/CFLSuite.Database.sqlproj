@@ -65,6 +65,8 @@
     <Build Include="dbo\ThrowType.sql" />
     <Build Include="dbo\Throw.sql" />
     <Build Include="dbo\Bet.sql" />
+    <Build Include="dbo\Prize.sql" />
+    <Build Include="dbo\Participant.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="CFLSuite.Database.refactorlog" />
