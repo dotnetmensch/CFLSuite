@@ -8,6 +8,10 @@ namespace CFLSuite.DataContracts.Entities
 {
     public class Bet
     {
+        public Bet()
+        {
+            Throws = new List<Throw>();
+        }
         public int BetID { get; set; }
         public string Description { get; set; }
         public DateTime BetStarted { get; set; }

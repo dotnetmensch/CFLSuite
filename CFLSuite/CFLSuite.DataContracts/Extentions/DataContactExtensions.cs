@@ -52,7 +52,11 @@ namespace CFLSuite.DataContracts
                 Description = x.Description,
                 WinnerPlayerID = x.Throws.FirstOrDefault(t => t.Points == x.Throws.Max(y => y.Points)).ThrowingPlayerID,
                 WinnerName = x.Throws.FirstOrDefault(t => t.Points == x.Throws.Max(y => y.Points)).ThrowingPlayer.Name,
-                WinCount = x.Throws.Select(y => y.ThrowingPlayerID).Distinct().Count() - 1
+                WinCount = x.Throws.Any() ?
+                    x.Throws.Where(y => y.ThrowingPlayerID != x.Throws.FirstOrDefault(t => t.Points == x.Throws.Max(z => z.Points)).ThrowingPlayerID)
+                    .Select(y => y.ThrowingPlayerID).Distinct().Count() :
+                    (int?)null
+                    
             });
         }
     }

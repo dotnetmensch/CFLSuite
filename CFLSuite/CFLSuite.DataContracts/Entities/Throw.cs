@@ -9,6 +9,10 @@ namespace CFLSuite.DataContracts.Entities
 {
     public class Throw
     {
+        public Throw()
+        {
+            RedemptionThrows = new List<Throw>();
+        }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ThrowID { get; set; }
         public int? BetID { get; set; }

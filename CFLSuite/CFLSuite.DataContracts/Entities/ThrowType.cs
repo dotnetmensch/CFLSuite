@@ -8,6 +8,10 @@ namespace CFLSuite.DataContracts.Entities
 {
     public class ThrowType
     {
+        public ThrowType()
+        {
+            Throws = new List<Throw>();
+        }
         public int ThrowTypeID { get; set; }
         public string Description { get; set; }
 

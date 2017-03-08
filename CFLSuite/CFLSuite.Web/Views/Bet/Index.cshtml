@@ -13,12 +13,15 @@
                 .NoRecords("No Bets")
                 .Columns(col =>
                 {
-                    col.Bound(c => c.BetStarted);
-                    col.Bound(c => c.Description);
+                    col.Bound(c => c.BetStarted).EditorTemplateName("DateTimeEditor");
+                    col.Bound(c => c.Description).EditorTemplateName("TextInput");
+                    col.Bound(c => c.WinnerName);
+                    col.Bound(c => c.WinCount);
                     col.Command(c =>
                     {
                         c.Edit();
-                        c.Custom("addThrows").Text("Add Throws").Click("onAddThrowsClick");
+                        c.Custom("addThrows").Text("Add Throws").Click("onAddThrowsClick")
+                            .HtmlAttributes(new { data_url = Url.Action("AddThrows", "Bet") });
                     });
                 })
                 .Scrollable()

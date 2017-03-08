@@ -860,6 +860,9 @@
     <Content Include="Views\ThrowType\Index.cshtml" />
     <Content Include="Views\Bet\Index.cshtml" />
     <Content Include="Views\Bet\AddThrows.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DateTimeEditor.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\TextInput.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ThrowTypeDropDown.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Site.css" />

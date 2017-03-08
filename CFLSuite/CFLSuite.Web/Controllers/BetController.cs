@@ -44,7 +44,7 @@ namespace CFLSuite.Web.Controllers
         [HttpGet]
         public ActionResult AddThrows(int id)
         {
-            Bet result = new BetService().GetBet(id);
+            var result = new BetService().GetBet(id);
             return View(result);
         }
 

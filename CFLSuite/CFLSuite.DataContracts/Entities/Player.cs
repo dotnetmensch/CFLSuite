@@ -10,6 +10,11 @@ namespace CFLSuite.DataContracts.Entities
 {
     public class Player
     {
+        public Player()
+        {
+            Throws = new List<Throw>();
+            OtherPlayersThrows = new List<Throw>();
+        }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PlayerID { get; set; }
         public string Name { get; set; }

@@ -23,21 +23,33 @@
                 .Columns(col =>
                 {
                     col.Add().Field(c => c.ThrowingPlayerID).Template("#=ThrowingPlayerName#");
-                    col.Add().Field(c => c.ThrowTypeID).Template("#=ThrowTypeDescription#").Editor(
-                        Html.Kendo().DropDownList()
-                        .Name("ThrowTypeID")
-                        .DataTextField("Description")
-                        .DataValueField("ID")
-                        .Value("#=ThrowTypeID#")
-                        .DataSource(ds => ds.Read(r => r.Action("GetThrowTypeOptions", "ThrowType")))
-                        .ToHtmlString()
-                        );
+                    col.Add().Field(c => c.ThrowTypeID).Template("#=ThrowTypeDescription#");
+                    col.Add().Command(c =>
+                    {
+                        c.Edit();
+                        c.CreateChild().Text("Add Redemption");
+                        c.Destroy();
+                    });
+                })
+                .Toolbar(t => t.Create().Text("Add Throw"))
+                .ColumnMenu()
+                .Resizable(true)
+                .Selectable(s => s.Mode(TreeListSelectionMode.Single))
+                .Editable(e =>
+                {
+                    e.Mode("inline");
+                    e.Move(true);
                 })
                 .DataSource(ds => ds
                     .Read(r => r.Action("GetThrowModels", "Bet", new { id = Model.BetID }))
                     .Update(r => r.Action("SaveThrowModel", "Bet"))
                     .Create(r => r.Action("SaveThrowModel", "Bet"))
                     .Destroy(d => d.Action("DeleteThrowModel", "Bet"))
+                    .Model(m =>
+                    {
+                        m.Id(i => i.ThrowID);
+                        m.ParentId(i => i.RedemptionForThrowID);
+                    })
                 )
             )
         </div>

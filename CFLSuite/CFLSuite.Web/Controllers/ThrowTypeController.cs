@@ -39,5 +39,12 @@ namespace CFLSuite.Web.Controllers
             }
             return Json(new[] { result }.ToDataSourceResult(req, ModelState));
         }
+
+        [HttpGet]
+        public ActionResult GetThrowTypes()
+        {
+            var result = new SetupService().GetThrowTypes();
+            return Json(result);
+        }
     }
 }

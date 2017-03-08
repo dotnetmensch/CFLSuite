@@ -1,0 +1,7 @@
+﻿@model int
+
+@(Html.Kendo().DropDownListFor(m => m)
+        .DataTextField("Description")
+        .DataValueField("ThrowTypeID")
+        .DataSource(ds => ds.Read(r => r.Action("GetThrowType", "ThrowType")))
+)
