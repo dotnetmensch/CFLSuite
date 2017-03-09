@@ -87,5 +87,55 @@ namespace CFLSuite.Web.Controllers
 
             return Json(new[] { result }.ToDataSourceResult(req, ModelState));
         }
+
+        public ActionResult EditBet(int id)
+        {
+            var result = new BetService().GetBet(id);
+            return View(result);
+        }
+
+        public ActionResult FinishBet()
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpPost]
+        public ActionResult SaveParticpant([DataSourceRequest] DataSourceRequest req, ParticipantModel model)
+        {
+            var result = model;
+            try
+            {
+                result = new BetService().SaveParticipantModel(model);
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("Error", e);
+            }
+
+            return Json(new[] {result}.ToDataSourceResult(req, ModelState));
+        }
+
+        public ActionResult GetBetParticipants([DataSourceRequest] DataSourceRequest req, int id)
+        {
+            var result = new List<ParticipantModel>();
+            result = new BetService().GetBetParticipantModels(id);
+            return Json(result.ToDataSourceResult(req));
+        }
+
+        [HttpPost]
+        public ActionResult DeleteParticipant([DataSourceRequest] DataSourceRequest req, ParticipantModel model)
+        {
+            var result = model;
+            try
+            {
+                result = new BetService().DeleteParticipantModel(model);
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("Error", e);
+            }
+
+            return Json(new[] {result}.ToDataSourceResult(req, ModelState));
+        }
     }
 }

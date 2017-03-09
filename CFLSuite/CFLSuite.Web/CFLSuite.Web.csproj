@@ -578,7 +578,8 @@
     <Content Include="Content\kendo\2017.1.223\images\kendoui.ttf" />
     <Content Include="Content\kendo\2017.1.223\images\kendoui.woff" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\app\Bet.js" />
+    <Content Include="Scripts\app\BetIndex.js" />
+    <Content Include="Scripts\app\EditBet.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -866,6 +867,8 @@
     <Content Include="Views\Shared\EditorTemplates\PlayerDropDown.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\IntegerInput.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\EditThrow.cshtml" />
+    <Content Include="Views\Bet\EditBet.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\CheckBoxInput.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Site.css" />

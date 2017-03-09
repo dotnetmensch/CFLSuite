@@ -14,7 +14,6 @@ namespace CFLSuite.DataContracts.Models
 
         [DisplayFormat(DataFormatString = "{0:g}")]
         public DateTime BetStarted { get; set; }
-        public int? WinnerPlayerID { get; set; }
         public string WinnerName { get; set; }
         public int? WinCount { get; set; }
 

@@ -1,0 +1,105 @@
+﻿@using CFLSuite.DataContracts.Entities
+@using CFLSuite.DataContracts.Models
+@model Bet
+@{
+    ViewBag.Title = "Add Participants";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="container-fluid">
+    @using (Html.BeginForm("FinishBet", "Bet", FormMethod.Post, new { id = "finshBetForm" }))
+    {
+        <div class="row">
+            <div class="col-xs-12 col-xs-6">
+                @Html.LabelFor(m => m.BetStarted)
+                @Html.Kendo().DateTimePickerFor(m => m.BetStarted)
+            </div>
+            <div class="col-xs-12 col-xs-6">
+                @Html.LabelFor(m => m.Description)
+                @Html.Kendo().TextBoxFor(m => m.Description)
+            </div>
+        </div>
+        <div class="row top-buffer">
+            <div class="col-xs-12">
+                @(Html.Kendo().Grid<ParticipantModel>()
+                    .Name("participantGrid")
+                    .ColumnMenu()
+                    .Resizable(r => r.Columns(true))
+                    .Filterable()
+                    .Sortable()
+                    .NoRecords("No Bets")
+                    .ToolBar(t => t.Create().Text("Add participant"))
+                    .Editable(e =>
+                    {
+                        e.Mode(GridEditMode.InLine);
+                        e.CreateAt(GridInsertRowPosition.Top);
+                        e.DisplayDeleteConfirmation(true);
+                    })
+                    .Columns(cols =>
+                    {
+                        cols.Bound(c => c.PlayerID).ClientTemplate("#=PlayerName#").EditorTemplateName("PlayerDropDown");
+                        cols.Bound(c => c.Winner).EditorTemplateName("CheckBoxInput");
+                        cols.Command(c =>
+                        {
+                            c.Edit().UpdateText("Save");
+                            c.Destroy();
+                        });
+                    })
+                    .ClientDetailTemplateId("throwGridTemplate")
+                    .DataSource(ds => ds.Ajax()
+                        .Create(c => c.Action("SaveParticpant", "Bet"))
+                        .Update(u => u.Action("SaveParticpant", "Bet"))
+                        .Destroy(d => d.Action("DeletePartcipant", "Bet"))
+                        .Read(r => r.Action("GetBetParticipants", "Bet", new { id = Model.BetID}))
+                        .Model(m =>
+                        {
+                            m.Id(i => i.ParticipantID);
+                            m.Field(f => f.BetID).DefaultValue(Model.BetID);
+                        })
+                    )
+                )
+            </div>
+        </div>
+    }
+    
+    <script id="throwGridTemplate" type="text/x-kendo-template">
+        @{
+            Html.Kendo().Grid<ThrowModel>()
+                .Name("throwGrid#=ParticipantID#")
+                .NoRecords("No throws")
+                .Sortable()
+                .Resizable(r => r.Columns(true))
+                .ColumnMenu()
+                .Filterable()
+                .Columns(cols =>
+                {
+                    cols.Bound(c => c.ThrowTypeID).ClientTemplate("#=ThrowTypeDescription#").EditorTemplateName("ThrowTypeDropDown");
+                    cols.Bound(c => c.Success).EditorTemplateName("CheckBoxInput");
+                    cols.Bound(c => c.Notes).EditorTemplateName("TextInput");
+                    cols.Bound(c => c.RedemptionBets).EditorTemplateName("IntegerInput");
+                    cols.Command(c =>
+                    {
+                        c.Edit().UpdateText("Save");
+                        c.Destroy();
+                    });
+                })
+                .Events(e =>
+                {
+                    e.DataBound("onThrowGridDataBound");
+                })
+                .DataSource(ds => ds.Ajax()
+                    .Create(c => c.Action("SaveThrowModel", "Bet"))
+                    .Update(u => u.Action("SaveThrowModel", "Bet"))
+                    .Destroy(d => d.Action("DeleteThrowModel", "Bet"))
+                    .Read(r => r.Action("GetThrowModels", "Bet", new {id = "#=ParticipantID#"}))
+                    .Model(m =>
+                    {
+                        m.Id(i => i.ThrowID);
+                        m.Field(f => f.ParticipantID).DefaultValue("#=ParticipantID#");
+                    })
+                ).ToClientTemplate();
+        }
+    </script>
+    
+</div>

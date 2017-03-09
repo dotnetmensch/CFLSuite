@@ -1,7 +1,10 @@
 ﻿using CFLSuite.DataContracts.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Spatial;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using CFLSuite.DataContracts.Entities;
@@ -16,7 +19,7 @@ namespace CFLSuite.Data
             var result = new List<BetGridModel>();
             using (var db = new CFLSuiteDB())
             {
-                result = db.Bets.ToBetGridModel().ToList();
+                result = db.Bets.Where(x => x.ThrowID == null).ToBetGridModel().ToList();
             }
             return result;
         }
@@ -56,6 +59,92 @@ namespace CFLSuite.Data
             using (var db = new CFLSuiteDB())
             {
                 result = db.Bets.First(x => x.BetID == betID);
+            }
+
+            return result;
+        }
+
+        public ParticipantModel SaveParticipantModel(ParticipantModel model)
+        {
+            model.ValidateModel();
+            ParticipantModel result = null;
+            using (var db = new CFLSuiteDB())
+            {
+                Participant dataModel = null;
+                var dup = db.Participants.FirstOrDefault(
+                           x => x.PlayerID == model.PlayerID && x.BetID == model.BetID &&
+                             x.ParticipantID != model.ParticipantID);
+                if (dup == null)
+                {
+                    if (model.ParticipantID > 0)
+                    {
+                        dataModel = db.Participants.First(x => x.ParticipantID == model.ParticipantID);
+                        dataModel.Winner = model.Winner;
+                        dataModel.PlayerID = model.PlayerID;
+                    }
+                    else
+                    {
+                        dataModel = new Participant()
+                        {
+                            BetID = model.BetID,
+                            PlayerID = model.PlayerID,
+                            Winner = model.Winner
+                        };
+                        db.Participants.Add(dataModel);
+                    }
+                    db.SaveChanges();
+                    result =
+                        db.Participants.Where(x => x.ParticipantID == dataModel.ParticipantID)
+                            .ToParticipantModels().First();
+                }
+                else
+                {
+                    throw new Exception("That participant already exists for this bet.");
+                }
+            }
+            return result;
+        }
+
+        public List<ParticipantModel> GetBetParticipantModels(int betID)
+        {
+            var result = new List<ParticipantModel>();
+            using (var db = new CFLSuiteDB())
+            {
+                result = db.Participants.Where(x => x.BetID == betID).ToParticipantModels().ToList();
+            }
+            return result;
+        }
+
+        public ParticipantModel DeleteParticipantModel(ParticipantModel model)
+        {
+            var result = model;
+            using (var db = new CFLSuiteDB())
+            {
+                var existing = db.Participants.First(x => x.ParticipantID == model.ParticipantID);
+                db.Participants.Remove(existing);
+                db.SaveChanges();
+            }
+            return result;
+        }
+
+        public Bet AddNewBetWithNewParticipants(Bet bet)
+        {
+            Bet result = null;
+            using (var db = new CFLSuiteDB())
+            {
+                db.Bets.Add(bet);
+                db.SaveChanges();
+                result = bet;
+            }
+            return result;
+        }
+
+        public Participant GetParticipant(int participantID)
+        {
+            Participant result = null;
+            using (var db = new CFLSuiteDB())
+            {
+                result = db.Participants.Include(x => x.Player).First(x => x.ParticipantID == participantID);
             }
 
             return result;

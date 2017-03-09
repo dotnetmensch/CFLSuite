@@ -32,17 +32,14 @@ namespace CFLSuite.DataContracts
         {
             return throws.Select(x => new ThrowModel
             {
-                //BetID = x.BetID,
-                //Notes = x.Notes,
-                //ReceivingPlayerID = x.ReceivingPlayerID,
-                //Points = x.Success,
-                //RedemptionForThrowID = x.RedemptionForThrowID,
-                //ThrowID = x.ThrowID,
-                //ThrowingPlayerID = x.ParticipantID,
-                //ThrowingPlayerName = x.Participant.Name,
-                //ThrowTypeDescription = x.ThrowType.Description,
-                //ThrowTypeID = x.ThrowTypeID,
-                //ReceivingPlayerName = x.ReceivingPlayer != null ? x.ReceivingPlayer.Name : string.Empty
+                ThrowID = x.ThrowID,
+                ThrowTypeDescription = x.ThrowType.Description,
+                ThrowTypeID = x.ThrowTypeID,
+                Notes = x.Notes,
+                Success = x.Success,
+                ParticipantID = x.ParticipantID,
+                RedemptionBets = x.Bets.Count,
+                BetIDs = x.Bets.Select(y => y.BetID).ToList()
             });
         }
 
@@ -53,6 +50,23 @@ namespace CFLSuite.DataContracts
                 BetID = x.BetID,
                 BetStarted = x.BetStarted,
                 Description = x.Description,
+                WinnerName = x.Participants.Any(y => y.Winner) ? 
+                    x.Participants.FirstOrDefault(y => y.Winner).Player.Name : 
+                    string.Empty,
+                WinCount = x.Participants.Any(y => y.Winner) ? 
+                x.Prizes.Count(y => y.WinningPlayerID == x.Participants.FirstOrDefault(z => z.Winner).PlayerID) : 0
+            });
+        }
+
+        public static IQueryable<ParticipantModel> ToParticipantModels(this IQueryable<Participant> participants)
+        {
+            return participants.Select(x => new ParticipantModel()
+            {
+                ParticipantID = x.ParticipantID,
+                BetID = x.BetID,
+                Winner = x.Winner,
+                PlayerID = x.PlayerID,
+                PlayerName = x.Player.Name
             });
         }
     }

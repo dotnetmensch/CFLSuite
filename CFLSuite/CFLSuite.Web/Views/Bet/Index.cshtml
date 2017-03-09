@@ -20,8 +20,8 @@
                     col.Command(c =>
                     {
                         c.Edit();
-                        c.Custom("addThrows").Text("Add Throws").Click("onAddThrowsClick")
-                            .HtmlAttributes(new { data_url = Url.Action("AddThrows", "Bet") });
+                        c.Custom("editBet").Text("Add Participants").Click("onAddParticipantsClick")
+                            .HtmlAttributes(new { data_url = Url.Action("EditBet", "Bet") });
                     });
                 })
                 .Scrollable()

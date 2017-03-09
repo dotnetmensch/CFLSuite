@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,53 +12,24 @@ namespace CFLSuite.Data
 {
     public class ThrowAccessor
     {
-        public List<ThrowModel> GetThrowModels(int betID)
+        public List<ThrowModel> GetThrowModels(int participantID)
         {
             var result = new List<ThrowModel>();
             using (var db = new CFLSuiteDB())
             {
-                result = db.Throws.Where(x => x.BetID == betID)
+                result = db.Throws.Where(x => x.ParticipantID == participantID)
                     .ToThrowModels().ToList();
             }
 
             return result;
         }
 
-        public ThrowModel SaveThrowModel(ThrowModel model)
+        public ThrowModel GetThrowModel(int throwID)
         {
-            model.ValidateModel();
             ThrowModel result = null;
             using (var db = new CFLSuiteDB())
             {
-                Throw dataModel = null; 
-                if(model.ThrowID > 0)
-                {
-                    dataModel = db.Throws.First(x => x.ThrowID == model.ThrowID);
-                    dataModel.BetID = model.BetID;
-                    dataModel.Notes = model.Notes;
-                    dataModel.ReceivingPlayerID = model.ReceivingPlayerID;
-                    dataModel.Success = model.Points;
-                    dataModel.RedemptionForThrowID = model.RedemptionForThrowID;
-                    dataModel.ParticipantID = model.ThrowingPlayerID;
-                    dataModel.ThrowTypeID = model.ThrowTypeID;
-                }
-                else
-                {
-                    dataModel = new Throw
-                    {
-                        BetID = model.BetID,
-                        Notes = model.Notes,
-                        ReceivingPlayerID = model.ReceivingPlayerID,
-                        Success = model.Points,
-                        RedemptionForThrowID = model.RedemptionForThrowID,
-                        ParticipantID = model.ThrowingPlayerID,
-                        ThrowTypeID = model.ThrowTypeID
-                    };
-                    db.Throws.Add(dataModel);
-                }
-                db.SaveChanges();
-
-                result = db.Throws.Where(x => x.ThrowID == dataModel.ThrowID).ToThrowModels().First();
+                result = db.Throws.Where(x => x.ThrowID == throwID).ToThrowModels().First();
             }
 
             return result;
@@ -72,6 +44,32 @@ namespace CFLSuite.Data
                 db.Throws.Remove(existing);
                 db.SaveChanges();
             }
+            return result;
+        }
+
+        public Throw SaveThrow(Throw model)
+        {
+            model.ValidateModel();
+            Throw result = null;
+            using (var db = new CFLSuiteDB())
+            {
+                if (model.ThrowID > 0)
+                {
+                    db.Throws.Attach(model);
+                    db.Entry(model).State = EntityState.Modified;
+                }
+                else
+                {
+                    db.Throws.Add(model);
+                }
+                db.SaveChanges();
+                result = db.Throws
+                    .Include(x => x.ThrowType)
+                    .Include(x => x.Bets)
+                    .Include(x => x.Participant.Player)
+                    .First(x => x.ThrowID == model.ThrowID);
+            }
+
             return result;
         }
     }
