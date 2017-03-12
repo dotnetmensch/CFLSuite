@@ -1,0 +1,45 @@
+﻿@using CFLSuite.DataContracts.Models
+@model ParticipantModel
+
+@(Html.Kendo().Grid<PrizeModel>()
+    .Name($"prizeGrid_{Model.ParticipantID}")
+    .Sortable()
+    .Resizable(r => r.Columns(true))
+    .Reorderable(r => r.Columns(true))
+    .NoRecords("No Payouts")
+    .Editable(e =>
+    {
+        e.Mode(GridEditMode.InLine);
+        e.DisplayDeleteConfirmation(true);
+        e.CreateAt(GridInsertRowPosition.Top);
+    })
+    .ToolBar(t =>
+    {
+        t.Create().Text("Add Payout");
+    })
+    .Columns(cols =>
+    {
+        cols.Bound(c => c.WinningParticipantID).ClientTemplate("#=WinningPlayerName#")
+            .EditorTemplateName("ParticipantDropDown")
+            .EditorViewData(new { betID = Model.BetID });
+        cols.Bound(c => c.PrizeDescription).EditorTemplateName("TextInput");
+        cols.Command(c =>
+        {
+            c.Edit().UpdateText("Save");
+            c.Destroy();
+        });
+    })
+    .DataSource(ds => ds.Ajax()
+        .Create(c => c.Action("SavePrizeModel", "Prize"))
+        .Update(u => u.Action("SavePrizeModel", "Prize"))
+        .Read(r => r.Action("GetPrizeModelsByLosingParticipant", "Prize", new { id = Model.ParticipantID }))
+        .Destroy(d => d.Action("DeletePrizeModel", "Prize"))
+        .Model(m =>
+        {
+            m.Id(i => i.PrizeID);
+            m.Field(f => f.LosingParticipantID).DefaultValue(Model.ParticipantID);
+        })
+        .Events(e => e.Error("onGridError"))
+        )
+
+)

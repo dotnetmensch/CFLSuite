@@ -64,6 +64,16 @@ namespace CFLSuite.Data
             return result;
         }
 
+        public ParticipantModel GetParticipantModel(int partcipantID)
+        {
+            ParticipantModel result = null;
+            using (var db = new CFLSuiteDB())
+            {
+                result = db.Participants.Where(x => x.ParticipantID == partcipantID).ToParticipantModels().First();
+            }
+            return result;
+        }
+
         public ParticipantModel SaveParticipantModel(ParticipantModel model)
         {
             model.ValidateModel();

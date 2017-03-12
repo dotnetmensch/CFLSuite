@@ -51,11 +51,16 @@ namespace CFLSuite.Service
                     betAccessor.AddNewBetWithNewParticipants(bet);
                 }
 
-                scope.Complete();
                 result = throwAccessor.GetThrowModel(savedThrow.ThrowID);
+                scope.Complete();
             }
 
             return result;
+        }
+
+        public ParticipantModel GetParticipantModel(int partcipantID)
+        {
+            return new BetAccessor().GetParticipantModel(partcipantID);
         }
 
         public ThrowModel DeleteThrowModel(ThrowModel model)

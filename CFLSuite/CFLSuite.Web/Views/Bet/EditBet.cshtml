@@ -28,7 +28,7 @@
                     .Resizable(r => r.Columns(true))
                     .Filterable()
                     .Sortable()
-                    .NoRecords("No Bets")
+                    .NoRecords("No Participants")
                     .ToolBar(t => t.Create().Text("Add participant"))
                     .Editable(e =>
                     {
@@ -50,13 +50,14 @@
                     .DataSource(ds => ds.Ajax()
                         .Create(c => c.Action("SaveParticpant", "Bet"))
                         .Update(u => u.Action("SaveParticpant", "Bet"))
-                        .Destroy(d => d.Action("DeletePartcipant", "Bet"))
+                        .Destroy(d => d.Action("DeleteParticipant", "Bet"))
                         .Read(r => r.Action("GetBetParticipants", "Bet", new { id = Model.BetID}))
                         .Model(m =>
                         {
                             m.Id(i => i.ParticipantID);
                             m.Field(f => f.BetID).DefaultValue(Model.BetID);
                         })
+                        .Events(e => e.Error("onGridError"))
                     )
                 )
             </div>
@@ -64,42 +65,16 @@
     }
     
     <script id="throwGridTemplate" type="text/x-kendo-template">
-        @{
-            Html.Kendo().Grid<ThrowModel>()
-                .Name("throwGrid#=ParticipantID#")
-                .NoRecords("No throws")
-                .Sortable()
-                .Resizable(r => r.Columns(true))
-                .ColumnMenu()
-                .Filterable()
-                .Columns(cols =>
-                {
-                    cols.Bound(c => c.ThrowTypeID).ClientTemplate("#=ThrowTypeDescription#").EditorTemplateName("ThrowTypeDropDown");
-                    cols.Bound(c => c.Success).EditorTemplateName("CheckBoxInput");
-                    cols.Bound(c => c.Notes).EditorTemplateName("TextInput");
-                    cols.Bound(c => c.RedemptionBets).EditorTemplateName("IntegerInput");
-                    cols.Command(c =>
-                    {
-                        c.Edit().UpdateText("Save");
-                        c.Destroy();
-                    });
-                })
-                .Events(e =>
-                {
-                    e.DataBound("onThrowGridDataBound");
-                })
-                .DataSource(ds => ds.Ajax()
-                    .Create(c => c.Action("SaveThrowModel", "Bet"))
-                    .Update(u => u.Action("SaveThrowModel", "Bet"))
-                    .Destroy(d => d.Action("DeleteThrowModel", "Bet"))
-                    .Read(r => r.Action("GetThrowModels", "Bet", new {id = "#=ParticipantID#"}))
-                    .Model(m =>
-                    {
-                        m.Id(i => i.ThrowID);
-                        m.Field(f => f.ParticipantID).DefaultValue("#=ParticipantID#");
-                    })
-                ).ToClientTemplate();
-        }
+        @(Html.Kendo().TabStrip()
+            .Name("participantTabStrip_#=ParticipantID#")
+            .Items(i =>
+            {
+                i.Add().LoadContentFrom(Url.Action("AddThrows", "Bet", new { id = "#=ParticipantID#" })).Selected(true).Text("Throws");
+                i.Add().LoadContentFrom(Url.Action("AddPayouts", "Bet", new { id = "#=ParticipantID#" })).Text("Payouts");
+            }).ToClientTemplate()
+        )
+
+        
     </script>
     
 </div>

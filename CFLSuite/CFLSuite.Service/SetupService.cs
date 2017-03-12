@@ -22,12 +22,12 @@ namespace CFLSuite.Service
 
         public List<ThrowType> GetThrowTypes()
         {
-            return new ThrowTypeAccessor().GetThrowTypes();
+            return new ThrowAccessor().GetThrowTypes();
         }
 
         public ThrowType SaveThrowType(ThrowType model)
         {
-            return new ThrowTypeAccessor().SaveThrowType(model);
+            return new ThrowAccessor().SaveThrowType(model);
         }
     }
 }

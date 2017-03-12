@@ -13,16 +13,12 @@ namespace CFLSuite.DataContracts.Entities
         public Player()
         {
             Participants = new List<Participant>();
-            PrizesLost = new List<Prize>();
-            PrizesWon = new List<Prize>();
         }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PlayerID { get; set; }
         public string Name { get; set; }
 
         public virtual ICollection<Participant> Participants { get; set; }
-        public virtual ICollection<Prize> PrizesWon { get; set; }
-        public virtual ICollection<Prize> PrizesLost { get; set; }
 
     }
 }

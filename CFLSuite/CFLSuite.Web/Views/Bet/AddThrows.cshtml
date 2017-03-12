@@ -1,1 +1,45 @@
-﻿
+﻿@using CFLSuite.DataContracts.Models
+@model ParticipantModel
+
+@(Html.Kendo().Grid<ThrowModel>()
+                .Name($"throwGrid_{Model.ParticipantID}")
+                .NoRecords("No throws")
+                .Sortable()
+                .Resizable(r => r.Columns(true))
+                .ColumnMenu()
+                .Filterable()
+                .ToolBar(t =>
+                {
+                    t.Create().Text("Add throw");
+                })
+                .Editable(e =>
+                {
+                    e.CreateAt(GridInsertRowPosition.Top);
+                    e.Mode(GridEditMode.InLine);
+                    e.DisplayDeleteConfirmation(true);
+                })
+                .Columns(cols =>
+                {
+                    cols.Bound(c => c.ThrowTypeID).ClientTemplate("#=ThrowTypeDescription#").EditorTemplateName("ThrowTypeDropDown");
+                    cols.Bound(c => c.Success).EditorTemplateName("CheckBoxInput");
+                    cols.Bound(c => c.Notes).EditorTemplateName("TextInput");
+                    cols.Bound(c => c.RedemptionBets).EditorTemplateName("IntegerInput");
+                    cols.Command(c =>
+                    {
+                        c.Edit().UpdateText("Save");
+                        c.Destroy();
+                    });
+                })
+                .DataSource(ds => ds.Ajax()
+                    .Read(r => r.Action("GetThrowModels", "Bet", new { id = Model.ParticipantID }))
+                    .Create(c => c.Action("SaveThrowModel", "Bet"))
+                    .Update(u => u.Action("SaveThrowModel", "Bet"))
+                    .Destroy(d => d.Action("DeleteThrowModel", "Bet"))
+                    .Model(m =>
+                    {
+                        m.Id(i => i.ThrowID);
+                        m.Field(f => f.ParticipantID).DefaultValue(Model.ParticipantID);
+                    })
+                    .Events(e => e.Error("onGridError"))
+                )
+)

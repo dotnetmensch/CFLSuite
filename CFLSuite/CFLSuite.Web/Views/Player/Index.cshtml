@@ -33,7 +33,9 @@
         {
             m.Id(i => i.PlayerID);
         })
+        .Events(e => e.Error("onGridError"))
         )
+
             )
         </div>
     </div>

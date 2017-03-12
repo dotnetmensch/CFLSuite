@@ -30,14 +30,14 @@ namespace CFLSuite.Data
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
             modelBuilder.Entity<Prize>()
-                .HasRequired(e => e.WinningPlayer)
+                .HasRequired(e => e.WinningParticipant)
                 .WithMany(e => e.PrizesWon)
-                .HasForeignKey(e => e.WinningPlayerID);
+                .HasForeignKey(e => e.WinningParticipantID);
 
             modelBuilder.Entity<Prize>()
-                .HasRequired(e => e.LosingPlayer)
+                .HasRequired(e => e.LosingParticipant)
                 .WithMany(e => e.PrizesLost)
-                .HasForeignKey(e => e.LosingPlayerID);
+                .HasForeignKey(e => e.LosingParticipantID);
 
             modelBuilder.Entity<Bet>()
                 .HasOptional(e => e.Throw)

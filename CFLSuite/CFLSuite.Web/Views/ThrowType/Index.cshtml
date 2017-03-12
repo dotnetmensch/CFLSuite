@@ -34,6 +34,7 @@
                     {
                         m.Id(i => i.ThrowTypeID);
                     })
+                    .Events(e => e.Error("onGridError"))
                     )
             )
         </div>

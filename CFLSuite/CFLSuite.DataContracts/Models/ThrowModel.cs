@@ -23,7 +23,7 @@ namespace CFLSuite.DataContracts.Models
         public bool Success { get; set; }
 
         [DisplayName("Redemption Bets")]
-        public int? RedemptionBets { get; set; }
+        public int RedemptionBets { get; set; }
 
         public List<int> BetIDs { get; set; }
         public string Notes { get; set; }

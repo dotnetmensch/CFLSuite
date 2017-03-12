@@ -35,7 +35,7 @@ namespace CFLSuite.Web.Controllers
             }
             catch(Exception e)
             {
-                ModelState.AddModelError("Error", e);
+                ModelState.AddModelError("Error", e.Message);
             }
             return Json(new[] { result }.ToDataSourceResult(req, ModelState));
         }

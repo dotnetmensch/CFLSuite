@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace CFLSuite.DataContracts.Models
     {
         public int ParticipantID { get; set; }
 
-        [Required, Range(1, int.MaxValue, ErrorMessage = "Player is required")]
+        [Required, Range(1, int.MaxValue, ErrorMessage = "Player is required"), DisplayName("Player")]
         public int PlayerID { get; set; }
         public string PlayerName { get; set; }
 

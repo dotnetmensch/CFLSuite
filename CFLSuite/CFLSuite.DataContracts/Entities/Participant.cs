@@ -21,6 +21,7 @@ namespace CFLSuite.DataContracts.Entities
         public virtual Player Player { get; set; }
         public virtual Bet Bet { get; set; }
         public virtual ICollection<Throw> Throws { get; set; }
-
+        public virtual ICollection<Prize> PrizesWon { get; set; }
+        public virtual ICollection<Prize> PrizesLost { get; set; }
     }
 }

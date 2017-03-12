@@ -16,7 +16,6 @@
                     col.Bound(c => c.BetStarted).EditorTemplateName("DateTimeEditor");
                     col.Bound(c => c.Description).EditorTemplateName("TextInput");
                     col.Bound(c => c.WinnerName);
-                    col.Bound(c => c.WinCount);
                     col.Command(c =>
                     {
                         c.Edit();
@@ -32,7 +31,6 @@
                 .Groupable()
                 .Editable(e => e.Mode(GridEditMode.InLine))
                 .ToolBar(t => t.Create().Text("Add Bet"))
-                .Events(e => e.DataBound("onBetGridDataBound"))
                 .DataSource(ds => ds.Ajax()
                     .Read(r => r.Action("GetBetGridModels", "Bet"))
                     .Create(c => c.Action("SaveBetGridModel", "Bet"))
@@ -41,8 +39,8 @@
                     {
                         m.Id(i => i.BetID);
                         m.Field(f => f.WinnerName).Editable(false);
-                        m.Field(f => f.WinCount).Editable(false);
                     })
+                    .Events(e => e.Error("onGridError"))
                 )
             )
         </div>

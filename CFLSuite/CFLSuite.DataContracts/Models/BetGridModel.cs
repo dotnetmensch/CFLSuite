@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -12,10 +13,11 @@ namespace CFLSuite.DataContracts.Models
         public int BetID { get; set; }
         public string Description { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:g}")]
+        [DisplayFormat(DataFormatString = "{0:g}"), DisplayName("Date Time Started")]
         public DateTime BetStarted { get; set; }
+
+        [DisplayName("Winner")]
         public string WinnerName { get; set; }
-        public int? WinCount { get; set; }
 
     }
 }

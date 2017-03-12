@@ -52,9 +52,7 @@ namespace CFLSuite.DataContracts
                 Description = x.Description,
                 WinnerName = x.Participants.Any(y => y.Winner) ? 
                     x.Participants.FirstOrDefault(y => y.Winner).Player.Name : 
-                    string.Empty,
-                WinCount = x.Participants.Any(y => y.Winner) ? 
-                x.Prizes.Count(y => y.WinningPlayerID == x.Participants.FirstOrDefault(z => z.Winner).PlayerID) : 0
+                    string.Empty
             });
         }
 
@@ -67,6 +65,18 @@ namespace CFLSuite.DataContracts
                 Winner = x.Winner,
                 PlayerID = x.PlayerID,
                 PlayerName = x.Player.Name
+            });
+        }
+
+        public static IQueryable<PrizeModel> ToPrizeModel(this IQueryable<Prize> prizes)
+        {
+            return prizes.Select(x => new PrizeModel
+            {
+                PrizeID = x.PrizeID,
+                PrizeDescription = x.PrizeDescription,
+                LosingParticipantID = x.LosingParticipantID,
+                WinningParticipantID = x.WinningParticipantID,
+                WinningPlayerName = x.WinningParticipant.Player.Name
             });
         }
     }

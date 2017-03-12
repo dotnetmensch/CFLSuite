@@ -36,7 +36,7 @@ namespace CFLSuite.Web.Controllers
             }
             catch(Exception e)
             {
-                ModelState.AddModelError("Error", e);
+                ModelState.AddModelError("Error", e.Message);
             }
             return Json(new[] { result }.ToDataSourceResult(req));
         }
@@ -44,8 +44,15 @@ namespace CFLSuite.Web.Controllers
         [HttpGet]
         public ActionResult AddThrows(int id)
         {
-            var result = new BetService().GetBet(id);
-            return View(result);
+            ParticipantModel result = new BetService().GetParticipantModel(id);
+            return PartialView(result);
+        }
+
+        [HttpGet]
+        public ActionResult AddPayouts(int id)
+        {
+            ParticipantModel result = new BetService().GetParticipantModel(id);
+            return PartialView(result);
         }
 
         [HttpPost]
@@ -66,7 +73,7 @@ namespace CFLSuite.Web.Controllers
             }
             catch(Exception e)
             {
-                ModelState.AddModelError("Error", e);
+                ModelState.AddModelError("Error", e.Message);
             }
 
             return Json(new[] { result }.ToDataSourceResult(req, ModelState));
@@ -82,7 +89,7 @@ namespace CFLSuite.Web.Controllers
             }
             catch (Exception e)
             {
-                ModelState.AddModelError("Error", e);
+                ModelState.AddModelError("Error", e.Message);
             }
 
             return Json(new[] { result }.ToDataSourceResult(req, ModelState));
@@ -109,17 +116,25 @@ namespace CFLSuite.Web.Controllers
             }
             catch (Exception e)
             {
-                ModelState.AddModelError("Error", e);
+                ModelState.AddModelError("Error", e.Message);
             }
 
             return Json(new[] {result}.ToDataSourceResult(req, ModelState));
         }
 
+        [HttpPost]
         public ActionResult GetBetParticipants([DataSourceRequest] DataSourceRequest req, int id)
         {
             var result = new List<ParticipantModel>();
             result = new BetService().GetBetParticipantModels(id);
             return Json(result.ToDataSourceResult(req));
+        }
+
+        [HttpGet]
+        public ActionResult GetBetParticipants(int betID)
+        {
+            var result = new BetService().GetBetParticipantModels(betID);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -132,10 +147,12 @@ namespace CFLSuite.Web.Controllers
             }
             catch (Exception e)
             {
-                ModelState.AddModelError("Error", e);
+                ModelState.AddModelError("Error", e.Message);
             }
 
             return Json(new[] {result}.ToDataSourceResult(req, ModelState));
         }
+
+        
     }
 }
