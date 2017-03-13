@@ -4,8 +4,10 @@
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseName>CFLSuiteDB</TargetDatabaseName>
     <DeployScriptFileName>CFLSuite.Database.sql</DeployScriptFileName>
-    <TargetConnectionString>Data Source=cflsuitesrv01.database.windows.net;Persist Security Info=True;User ID=bbuilder;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=True;TrustServerCertificate=False</TargetConnectionString>
+    <TargetConnectionString>Data Source=cflsuitedbsrv01.database.windows.net;Persist Security Info=True;User ID=junitas;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=True;TrustServerCertificate=False</TargetConnectionString>
     <BlockOnPossibleDataLoss>True</BlockOnPossibleDataLoss>
     <ProfileVersionNumber>1</ProfileVersionNumber>
+    <BlockWhenDriftDetected>True</BlockWhenDriftDetected>
+    <RegisterDataTierApplication>True</RegisterDataTierApplication>
   </PropertyGroup>
 </Project>
