@@ -75,6 +75,7 @@
   <ItemGroup>
     <None Include="CFLSuite.Database.publish.xml" />
     <None Include="InitData\ThrowType.data.sql" />
+    <None Include="CFLSuite.Azure.Database.publish.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Script.PostDeployment.sql" />

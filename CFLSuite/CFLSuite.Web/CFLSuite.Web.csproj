@@ -586,6 +586,7 @@
     <Content Include="Content\kendo\2017.1.223\fonts\glyphs\WebComponentsIcons.woff" />
     <Content Include="Content\kendo\2017.1.223\images\kendoui.ttf" />
     <Content Include="Content\kendo\2017.1.223\images\kendoui.woff" />
+    <None Include="Properties\PublishProfiles\CFLSuite - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\app\BetIndex.js" />
     <Content Include="Scripts\app\EditBet.js" />
