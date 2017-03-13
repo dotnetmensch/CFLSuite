@@ -53,6 +53,56 @@ namespace CFLSuite.Data
             return result;
         }
 
+        public RedemptionModel SaveRedemptionModel(RedemptionModel model)
+        {
+            model.ValidateModel();
+            RedemptionModel result = null;
+            Bet dataModel = null;
+            using (var db = new CFLSuiteDB())
+            {
+                if(model.BetID > 0)
+                {
+                    dataModel = db.Bets.First(x => x.BetID == model.BetID);
+                    dataModel.BetStarted = model.BetStarted;
+                    dataModel.Description = model.Description;
+                    dataModel.ThrowID = model.ThrowID;
+                }
+                else
+                {
+                    var playerID = db.Participants.First(x => x.ParticipantID == model.ParticipantID).PlayerID;
+                    dataModel = new Bet
+                    {
+                        BetStarted = model.BetStarted,
+                        Description = model.Description,
+                        ThrowID = model.ThrowID,
+                        Participants = new List<Participant>()
+                        {
+                            new Participant
+                            {
+                                PlayerID = playerID,
+                                Winner = false
+                            }
+                        }
+                    };
+                }
+                db.SaveChanges();
+                result = db.Bets.Where(x => x.BetID == dataModel.BetID).ToRedemptionModel().First();
+            }
+
+            return result;
+        }
+
+        public List<RedemptionModel> GetRedemptionsByParentBet(int betID)
+        {
+            var result = new List<RedemptionModel>();
+            using (var db = new CFLSuiteDB())
+            {
+                result = db.Bets.Where(x => x.Throw.Bets.Any(y => y.BetID == betID)).ToRedemptionModel().ToList();
+            }
+
+            return result;
+        }
+
         public Bet GetBet(int betID)
         {
             Bet result = null;
@@ -81,9 +131,10 @@ namespace CFLSuite.Data
             using (var db = new CFLSuiteDB())
             {
                 Participant dataModel = null;
-                var dup = db.Participants.FirstOrDefault(
-                           x => x.PlayerID == model.PlayerID && x.BetID == model.BetID &&
-                             x.ParticipantID != model.ParticipantID);
+                var dup = db.Participants.FirstOrDefault(x => x.PlayerID == model.PlayerID && 
+                    x.BetID == model.BetID &&
+                    x.ParticipantID != model.ParticipantID);
+
                 if (dup == null)
                 {
                     if (model.ParticipantID > 0)
@@ -131,6 +182,14 @@ namespace CFLSuite.Data
             using (var db = new CFLSuiteDB())
             {
                 var existing = db.Participants.First(x => x.ParticipantID == model.ParticipantID);
+                var throws = db.Throws.Any(x => x.ParticipantID == existing.ParticipantID);
+                var prizes = db.Prizes.Any(x => x.LosingParticipantID == existing.ParticipantID || x.WinningParticipantID == existing.ParticipantID);
+
+                if(throws || prizes)
+                {
+                    throw new Exception("Cannot delete this participant because they either have throws or payouts associated with them.");
+                }
+
                 db.Participants.Remove(existing);
                 db.SaveChanges();
             }

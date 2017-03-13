@@ -79,5 +79,29 @@ namespace CFLSuite.DataContracts
                 WinningPlayerName = x.WinningParticipant.Player.Name
             });
         }
+
+        public static IQueryable<RedeemedThrowModel> ToRedeemedThrowModels(this IQueryable<Throw> throws)
+        {
+            return throws.Select(x => new RedeemedThrowModel
+            {
+                ThrowID = x.ThrowID,
+                Description = x.ThrowType.Description + ". " + x.Notes,
+                ParticipantID = x.ParticipantID
+            });
+        }
+
+        public static IQueryable<RedemptionModel> ToRedemptionModel(this IQueryable<Bet> bets)
+        {
+            return bets.Select(x => new RedemptionModel
+            {
+                BetID = x.BetID,
+                BetStarted = x.BetStarted,
+                Description = x.Description,
+                ParticipantID = x.Throw.ParticipantID,
+                ParticipantName = x.Throw.Participant.Player.Name,
+                ThrowID = (int)x.ThrowID,
+                ThrowDescription = x.Throw.ThrowType.Description
+            });
+        }
     }
 }

@@ -21,7 +21,7 @@ namespace CFLSuite.Engines
                     var bet = new Bet()
                     {
                         BetStarted = DateTime.Now,
-                        Description = $"Redemption for {model.Participant.Player.Name}'s {model.ThrowType.Description}",
+                        Description = $"Redemption for {model.Participant.Player.Name}'s {model.ThrowType.Description}. Notes: {model.Notes}.",
                         ThrowID = model.ThrowID,
                         Participants = new List<Participant>
                         {

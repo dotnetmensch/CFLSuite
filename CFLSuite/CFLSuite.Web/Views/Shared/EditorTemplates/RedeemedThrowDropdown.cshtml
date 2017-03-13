@@ -1,0 +1,10 @@
+﻿@model int
+
+@(Html.Kendo().DropDownListFor(m => m)
+    .DataTextField("Description")
+    .DataValueField("ThrowID")
+    .CascadeFrom(ViewData["cascadeFrom"].ToString())
+    .CascadeFromField(ViewData["cascadeFrom"].ToString())
+    .OptionLabel("Select a throw")
+    .DataSource(ds => ds.Read(r => r.Action("GetRedeemedThrowModels", "Redemption", new { betID = ViewData["betID"] })))
+    )

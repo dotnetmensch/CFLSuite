@@ -35,6 +35,17 @@ namespace CFLSuite.Data
             return result;
         }
 
+        public List<RedeemedThrowModel> GetRedeemedThrowModels(int betID)
+        {
+            var result = new List<RedeemedThrowModel>();
+            using (var db = new CFLSuiteDB())
+            {
+                result = db.Throws.Where(x => x.Bets.Any(y => y.BetID == betID)).ToRedeemedThrowModels().ToList();
+            }
+
+            return result;
+        }
+
         public ThrowModel DeleteThrowModel(ThrowModel model)
         {
             var result = model;

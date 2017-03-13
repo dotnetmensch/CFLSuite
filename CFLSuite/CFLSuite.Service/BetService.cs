@@ -24,14 +24,29 @@ namespace CFLSuite.Service
             return new BetAccessor().GetBet(id);
         }
 
+        public List<RedeemedThrowModel> GetRedeemedThrowModels(int betID)
+        {
+            return new ThrowAccessor().GetRedeemedThrowModels(betID);
+        }
+
         public BetGridModel SaveBetGridModel(BetGridModel model)
         {
             return new BetAccessor().SaveBetGridModel(model);
         }
 
+        public List<RedemptionModel> GetRedemptionsByParentBet(int betID)
+        {
+            return new BetAccessor().GetRedemptionsByParentBet(betID);
+        }
+
         public List<ThrowModel> GetThrowModels(int participantID)
         {
             return new ThrowAccessor().GetThrowModels(participantID);
+        }
+
+        public RedemptionModel SaveRedemptionModel(RedemptionModel model)
+        {
+            return new BetAccessor().SaveRedemptionModel(model);
         }
 
         public ThrowModel SaveThrowModel(ThrowModel model)

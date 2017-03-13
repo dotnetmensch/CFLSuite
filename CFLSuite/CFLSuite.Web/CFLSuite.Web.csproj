@@ -131,6 +131,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PlayerController.cs" />
     <Compile Include="Controllers\PrizeController.cs" />
+    <Compile Include="Controllers\RedemptionController.cs" />
     <Compile Include="Controllers\ThrowTypeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -875,11 +876,13 @@
     <Content Include="Views\Shared\EditorTemplates\ThrowTypeDropDown.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\PlayerDropDown.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\IntegerInput.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\EditThrow.cshtml" />
     <Content Include="Views\Bet\EditBet.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\CheckBoxInput.cshtml" />
     <Content Include="Views\Bet\AddPayouts.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\ParticipantDropDown.cshtml" />
+    <Content Include="Views\Bet\BetSummary.cshtml" />
+    <Content Include="Views\Redemption\Index.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\RedeemedThrowDropdown.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Site.css" />
