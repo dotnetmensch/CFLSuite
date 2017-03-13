@@ -97,5 +97,15 @@ namespace CFLSuite.Service
         {
             return new BetAccessor().DeleteParticipantModel(model);
         }
+
+        public List<Player> GetAllPlayersForBet(int betID)
+        {
+            return new BetAccessor().GetAllPlayersForBet(betID);
+        }
+
+        public List<PlayerPrizeModel> GetPlayerPrizeModels(int betID, int playerID)
+        {
+            return new BetAccessor().GetPlayerPrizeModels(betID, playerID);
+        }
     }
 }

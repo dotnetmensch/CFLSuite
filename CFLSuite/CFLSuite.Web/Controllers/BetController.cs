@@ -101,9 +101,9 @@ namespace CFLSuite.Web.Controllers
             return View(result);
         }
 
-        public ActionResult FinishBet()
+        public ActionResult BetSummary(int betID)
         {
-            throw new NotImplementedException();
+            return View(betID);
         }
 
         [HttpPost]
@@ -153,6 +153,20 @@ namespace CFLSuite.Web.Controllers
             return Json(new[] {result}.ToDataSourceResult(req, ModelState));
         }
 
-        
+        [HttpPost]
+        public ActionResult GetAllPlayersForBet([DataSourceRequest]DataSourceRequest req, int betID)
+        {
+            var result = new BetService().GetAllPlayersForBet(betID);
+            return Json(result.ToDataSourceResult(req));
+        }
+
+        [HttpPost]
+        public ActionResult GetPlayerPrizeModels([DataSourceRequest]DataSourceRequest req, int betID, int playerID)
+        {
+            List<PlayerPrizeModel> result = new BetService().GetPlayerPrizeModels(betID, playerID);
+            return Json(result.ToDataSourceResult(req));
+        }
+
+
     }
 }

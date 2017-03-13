@@ -13,9 +13,9 @@ namespace CFLSuite.Web.Controllers
     public class RedemptionController : Controller
     {
         // GET: Redemption
-        public ActionResult Index()
+        public ActionResult Index(int betID)
         {
-            return View();
+            return View(betID);
         }
 
         [HttpGet]

@@ -11,6 +11,8 @@ namespace CFLSuite.DataContracts.Models
     public class BetGridModel
     {
         public int BetID { get; set; }
+
+        [Required]
         public string Description { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:g}"), DisplayName("Date Time Started")]

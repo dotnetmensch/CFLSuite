@@ -14,12 +14,14 @@
                 .Columns(col =>
                 {
                     col.Bound(c => c.BetStarted).EditorTemplateName("DateTimeEditor");
-                    col.Bound(c => c.Description).EditorTemplateName("TextInput");
+                    col.Bound(c => c.Description)
+                        .ClientTemplate($"<a href='{Url.Action("BetSummary", "Bet", new { betID = "#=BetID#" })}'>#=Description#</a>")
+                        .EditorTemplateName("TextInput");
                     col.Bound(c => c.WinnerName);
                     col.Command(c =>
                     {
                         c.Edit();
-                        c.Custom("editBet").Text("Add Participants").Click("onAddParticipantsClick")
+                        c.Custom("editBet").Text("Add/Edit Participants").Click("onAddParticipantsClick")
                             .HtmlAttributes(new { data_url = Url.Action("EditBet", "Bet") });
                     });
                 })

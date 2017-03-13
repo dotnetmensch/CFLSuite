@@ -103,5 +103,15 @@ namespace CFLSuite.DataContracts
                 ThrowDescription = x.Throw.ThrowType.Description
             });
         }
+
+        public static IQueryable<PlayerPrizeModel> ToPlayerPrizeModel(this IQueryable<Prize> prizes)
+        {
+            return prizes.Select(x => new PlayerPrizeModel
+            {
+                PlayerID = x.WinningParticipant.PlayerID,
+                PlayerName = x.WinningParticipant.Player.Name,
+                Prize = x.PrizeDescription
+            });
+        }
     }
 }

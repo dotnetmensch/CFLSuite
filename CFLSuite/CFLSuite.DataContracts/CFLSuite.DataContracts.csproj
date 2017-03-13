@@ -59,6 +59,7 @@
     <Compile Include="Extentions\DataContactExtensions.cs" />
     <Compile Include="Models\BetGridModel.cs" />
     <Compile Include="Models\ParticipantModel.cs" />
+    <Compile Include="Models\PlayerPrizeModel.cs" />
     <Compile Include="Models\PrizeModel.cs" />
     <Compile Include="Models\RedeemedThrowModel.cs" />
     <Compile Include="Models\RedemptionModel.cs" />

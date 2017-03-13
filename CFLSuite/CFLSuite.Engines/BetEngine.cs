@@ -31,6 +31,7 @@ namespace CFLSuite.Engines
                             }
                         }
                     };
+                    result.Add(bet);
                 }
             }
 

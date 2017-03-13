@@ -1,0 +1,43 @@
+﻿@using CFLSuite.DataContracts.Models
+@using CFLSuite.DataContracts.Entities
+
+@model Bet
+
+@(Html.Kendo().Grid<ParticipantModel>()
+                    .Name("participantGrid")
+                    .ColumnMenu()
+                    .Resizable(r => r.Columns(true))
+                    .Filterable()
+                    .Sortable()
+                    .NoRecords("No Participants")
+                    .ToolBar(t => t.Create().Text("Add participant"))
+                    .Editable(e =>
+                    {
+                        e.Mode(GridEditMode.InLine);
+                        e.CreateAt(GridInsertRowPosition.Top);
+                        e.DisplayDeleteConfirmation(true);
+                    })
+                    .Columns(cols =>
+                    {
+                        cols.Bound(c => c.PlayerID).ClientTemplate("#=PlayerName#").EditorTemplateName("PlayerDropDown");
+                        cols.Bound(c => c.Winner).EditorTemplateName("CheckBoxInput");
+                        cols.Command(c =>
+                        {
+                            c.Edit().UpdateText("Save");
+                            c.Destroy();
+                        });
+                    })
+                    .ClientDetailTemplateId("throwGridTemplate")
+                    .DataSource(ds => ds.Ajax()
+                        .Create(c => c.Action("SaveParticpant", "Bet"))
+                        .Update(u => u.Action("SaveParticpant", "Bet"))
+                        .Destroy(d => d.Action("DeleteParticipant", "Bet"))
+                        .Read(r => r.Action("GetBetParticipants", "Bet", new { id = Model.BetID }))
+                        .Model(m =>
+                        {
+                            m.Id(i => i.ParticipantID);
+                            m.Field(f => f.BetID).DefaultValue(Model.BetID);
+                        })
+                        .Events(e => e.Error("onGridError"))
+                    )
+)

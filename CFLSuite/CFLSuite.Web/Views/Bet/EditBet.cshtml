@@ -1,5 +1,4 @@
 ﻿@using CFLSuite.DataContracts.Entities
-@using CFLSuite.DataContracts.Models
 @model Bet
 @{
     ViewBag.Title = "Add Participants";
@@ -8,62 +7,28 @@
 <h2>@ViewBag.Title</h2>
 
 <div class="container-fluid">
-    @using (Html.BeginForm("FinishBet", "Bet", FormMethod.Post, new { id = "finshBetForm" }))
-    {
-        <div class="row">
-            <div class="col-xs-12 col-xs-6">
-                @Html.LabelFor(m => m.BetStarted)
-                @Html.Kendo().DateTimePickerFor(m => m.BetStarted)
-            </div>
-            <div class="col-xs-12 col-xs-6">
-                @Html.LabelFor(m => m.Description)
-                @Html.Kendo().TextBoxFor(m => m.Description)
-            </div>
+    <div class="row">
+        <div class="col-xs-12 col-xs-6">
+            @Html.LabelFor(m => m.BetStarted):
+            @Html.DisplayFor(m => m.BetStarted)
         </div>
-        <div class="row top-buffer">
-            <div class="col-xs-12">
-                @(Html.Kendo().Grid<ParticipantModel>()
-                    .Name("participantGrid")
-                    .ColumnMenu()
-                    .Resizable(r => r.Columns(true))
-                    .Filterable()
-                    .Sortable()
-                    .NoRecords("No Participants")
-                    .ToolBar(t => t.Create().Text("Add participant"))
-                    .Editable(e =>
-                    {
-                        e.Mode(GridEditMode.InLine);
-                        e.CreateAt(GridInsertRowPosition.Top);
-                        e.DisplayDeleteConfirmation(true);
-                    })
-                    .Columns(cols =>
-                    {
-                        cols.Bound(c => c.PlayerID).ClientTemplate("#=PlayerName#").EditorTemplateName("PlayerDropDown");
-                        cols.Bound(c => c.Winner).EditorTemplateName("CheckBoxInput");
-                        cols.Command(c =>
-                        {
-                            c.Edit().UpdateText("Save");
-                            c.Destroy();
-                        });
-                    })
-                    .ClientDetailTemplateId("throwGridTemplate")
-                    .DataSource(ds => ds.Ajax()
-                        .Create(c => c.Action("SaveParticpant", "Bet"))
-                        .Update(u => u.Action("SaveParticpant", "Bet"))
-                        .Destroy(d => d.Action("DeleteParticipant", "Bet"))
-                        .Read(r => r.Action("GetBetParticipants", "Bet", new { id = Model.BetID}))
-                        .Model(m =>
-                        {
-                            m.Id(i => i.ParticipantID);
-                            m.Field(f => f.BetID).DefaultValue(Model.BetID);
-                        })
-                        .Events(e => e.Error("onGridError"))
-                    )
-                )
-            </div>
+        <div class="col-xs-12 col-xs-6">
+            @Html.LabelFor(m => m.Description):
+            @Html.DisplayFor(m => m.Description)
         </div>
-    }
-    
+    </div>
+    <div class="row top-buffer">
+        <div class="col-xs-12">
+            @Html.Partial("ParticipantPartial", Model)
+        </div>
+    </div>
+    <div class="row top-buffer">
+        <div class="col-xs-12 text-right">
+            @Html.Kendo().Button().Name("redemptions").Content("Redemptions").Tag("a").HtmlAttributes(new { href = Url.Action("Index", "Redemption", new { betID = Model.BetID }) })
+            @Html.Kendo().Button().Name("betSummary").Content("Bet Summary").Tag("a").HtmlAttributes(new { @class = "k-primary", href = Url.Action("BetSummary", "Bet", new { betID = Model.BetID})})
+        </div>
+    </div>
+
     <script id="throwGridTemplate" type="text/x-kendo-template">
         @(Html.Kendo().TabStrip()
             .Name("participantTabStrip_#=ParticipantID#")
@@ -73,8 +38,6 @@
                 i.Add().LoadContentFrom(Url.Action("AddPayouts", "Bet", new { id = "#=ParticipantID#" })).Text("Payouts");
             }).ToClientTemplate()
         )
-
-        
     </script>
-    
+
 </div>

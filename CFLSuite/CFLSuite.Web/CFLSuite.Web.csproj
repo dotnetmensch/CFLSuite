@@ -883,6 +883,7 @@
     <Content Include="Views\Bet\BetSummary.cshtml" />
     <Content Include="Views\Redemption\Index.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\RedeemedThrowDropdown.cshtml" />
+    <Content Include="Views\Bet\ParticipantPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Site.css" />

@@ -1,7 +1,58 @@
-﻿
+﻿@using CFLSuite.DataContracts.Entities
+@using CFLSuite.DataContracts.Models
+@model int
 @{
     ViewBag.Title = "Bet Summary";
 }
 
-<h2>Bet Summary</h2>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>@ViewBag.Title</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+           @(Html.Kendo().Grid<Player>()
+                .Name("betSummarGrid")
+                .Sortable()
+                .Resizable(r => r.Columns(true))
+                .Columns(col =>
+                {
+                    col.Bound(c => c.Name);
+                })
+                .ClientDetailTemplateId("prizesTemplate")
+                .DataSource(ds => ds.Ajax()
+                    .Read(r => r.Action("GetAllPlayersForBet", "Bet", new { betID = Model}))
+                    .Model(m =>
+                    {
+                        m.Id(i => i.PlayerID);
+                    }))
+            )
+        </div>
+    </div>
+</div>
+<script id="prizesTemplate" type="text/x-kendo-template">
+    @(Html.Kendo().Grid<PlayerPrizeModel>()
+        .Name($"playerPrizeGrid_#=PlayerID#")
+        .Sortable()
+        .Resizable(r => r.Columns(true))
+        .Columns(col =>
+        {
+            col.Bound(c => c.PlayerName).Width(200);
+            col.Bound(c => c.Prize).Width(200);
+            col.Command(c => { });
+        })
+        .NoRecords("Does not owe anything")
+        .DataSource(ds => ds.Ajax()
+            .Read(r => r.Action("GetPlayerPrizeModels", "Bet", new { betID = Model, playerID = "#=PlayerID#" }))
+            .Model(m =>
+            {
+                m.Id(i => i.PlayerID);
+            })
+        ).ToClientTemplate()
+    )
+</script>
 

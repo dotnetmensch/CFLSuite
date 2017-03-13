@@ -31,7 +31,7 @@ namespace CFLSuite.Data
             using (var db = new CFLSuiteDB())
             {
                 Bet dataModel = null;
-                if(model.BetID > 0)
+                if (model.BetID > 0)
                 {
                     dataModel = db.Bets.First(x => x.BetID == model.BetID);
                     dataModel.BetStarted = model.BetStarted;
@@ -60,7 +60,7 @@ namespace CFLSuite.Data
             Bet dataModel = null;
             using (var db = new CFLSuiteDB())
             {
-                if(model.BetID > 0)
+                if (model.BetID > 0)
                 {
                     dataModel = db.Bets.First(x => x.BetID == model.BetID);
                     dataModel.BetStarted = model.BetStarted;
@@ -92,12 +92,46 @@ namespace CFLSuite.Data
             return result;
         }
 
+        public List<Player> GetAllPlayersForBet(int betID)
+        {
+            var result = new List<Player>();
+            using (var db = new CFLSuiteDB())
+            {
+                result = db.Players.Where(x => x.Participants.Any(y => y.BetID == betID ||
+                    y.Throws.Any(z => z.Bets.Any(a => a.BetID == betID))))
+                    .ToList();
+            }
+
+            return result;
+        }
+
+        public List<PlayerPrizeModel> GetPlayerPrizeModels(int betID, int playerID)
+        {
+            var result = new List<PlayerPrizeModel>();
+            using (var db = new CFLSuiteDB())
+            {
+                result = db.Prizes.Where(x => (x.LosingParticipant.PlayerID == playerID &&
+                    x.LosingParticipant.BetID == betID) ||
+                    (x.LosingParticipant.PlayerID == playerID &&
+                    x.LosingParticipant.Throws.Any(y => y.Bets.Any(z => z.BetID == betID))))
+                    .ToPlayerPrizeModel()
+                    .ToList();
+            }
+
+            return result;
+        }
+
         public List<RedemptionModel> GetRedemptionsByParentBet(int betID)
         {
             var result = new List<RedemptionModel>();
             using (var db = new CFLSuiteDB())
             {
-                result = db.Bets.Where(x => x.Throw.Bets.Any(y => y.BetID == betID)).ToRedemptionModel().ToList();
+                var throws = db.Throws.Where(x => x.Participant.BetID == betID);
+                result = (from t in throws
+                          join b in db.Bets
+                          on t.ThrowID equals b.ThrowID
+                          where b.ThrowID != null
+                              select b).ToRedemptionModel().ToList();
             }
 
             return result;
@@ -131,7 +165,7 @@ namespace CFLSuite.Data
             using (var db = new CFLSuiteDB())
             {
                 Participant dataModel = null;
-                var dup = db.Participants.FirstOrDefault(x => x.PlayerID == model.PlayerID && 
+                var dup = db.Participants.FirstOrDefault(x => x.PlayerID == model.PlayerID &&
                     x.BetID == model.BetID &&
                     x.ParticipantID != model.ParticipantID);
 
@@ -185,7 +219,7 @@ namespace CFLSuite.Data
                 var throws = db.Throws.Any(x => x.ParticipantID == existing.ParticipantID);
                 var prizes = db.Prizes.Any(x => x.LosingParticipantID == existing.ParticipantID || x.WinningParticipantID == existing.ParticipantID);
 
-                if(throws || prizes)
+                if (throws || prizes)
                 {
                     throw new Exception("Cannot delete this participant because they either have throws or payouts associated with them.");
                 }
