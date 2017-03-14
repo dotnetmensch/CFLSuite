@@ -56,11 +56,14 @@ namespace CFLSuite.Service
             var throwEngine = new ThrowEngine();
             var throwAccessor = new ThrowAccessor();
             var betEngine = new BetEngine();
+            var betAccessor = new BetAccessor();
+            var parentBet = betAccessor.GetBetByParticipant(model.ParticipantID);
+
             using (var scope = new TransactionScope())
             {
                 var savedThrow = throwAccessor.SaveThrow(throwEngine.BuildThrow(model));
-                var betsToAdd = betEngine.BuildBets(savedThrow, model.RedemptionBets);
-                var betAccessor = new BetAccessor();
+                var betsToAdd = betEngine.BuildBets(savedThrow, model.RedemptionBets, parentBet.BetID);
+               
                 foreach (var bet in betsToAdd)
                 {
                     betAccessor.AddNewBetWithNewParticipants(bet);
@@ -100,7 +103,7 @@ namespace CFLSuite.Service
 
         public List<Player> GetAllPlayersForBet(int betID)
         {
-            return new BetAccessor().GetAllPlayersForBet(betID);
+            return new BetAccessor().GetAllPlayersForRedemption(betID);
         }
 
         public List<PlayerPrizeModel> GetPlayerPrizeModels(int betID, int playerID)

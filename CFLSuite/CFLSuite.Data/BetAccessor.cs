@@ -92,7 +92,7 @@ namespace CFLSuite.Data
             return result;
         }
 
-        public List<Player> GetAllPlayersForBet(int betID)
+        public List<Player> GetAllPlayersForRedemption(int betID)
         {
             var result = new List<Player>();
             using (var db = new CFLSuiteDB())
@@ -248,6 +248,17 @@ namespace CFLSuite.Data
             using (var db = new CFLSuiteDB())
             {
                 result = db.Participants.Include(x => x.Player).First(x => x.ParticipantID == participantID);
+            }
+
+            return result;
+        }
+
+        public Bet GetBetByParticipant(int participantID)
+        {
+            Bet result = null;
+            using (var db = new CFLSuiteDB())
+            {
+                result = db.Bets.First(x => x.Participants.Any(y => y.ParticipantID == participantID));
             }
 
             return result;

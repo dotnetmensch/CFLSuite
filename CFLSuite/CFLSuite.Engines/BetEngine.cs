@@ -11,7 +11,7 @@ namespace CFLSuite.Engines
 {
     public class BetEngine
     {
-        public List<Bet> BuildBets(Throw model, int redemptionBetCount)
+        public List<Bet> BuildBets(Throw model, int redemptionBetCount, int parentBetID)
         {
             var result = new List<Bet>();
             if (redemptionBetCount > model.Bets.Count)
@@ -23,6 +23,7 @@ namespace CFLSuite.Engines
                         BetStarted = DateTime.Now,
                         Description = $"Redemption for {model.Participant.Player.Name}'s {model.ThrowType.Description}. Notes: {model.Notes}.",
                         ThrowID = model.ThrowID,
+                        ParentBetID = parentBetID,
                         Participants = new List<Participant>
                         {
                             new Participant

@@ -113,5 +113,16 @@ namespace CFLSuite.DataContracts
                 Prize = x.PrizeDescription
             });
         }
+
+        public static Bet GetTopParentBet(this IQueryable<Bet> bets, int betID)
+        {
+            var bet = bets.First(x => x.BetID == betID);
+            if (bet.ParentBetID != null)
+            {
+                return bets.GetTopParentBet(bet.ParentBetID.Value);
+            }
+
+            return bet;
+        }
     }
 }
