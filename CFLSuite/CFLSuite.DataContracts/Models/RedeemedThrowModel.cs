@@ -10,6 +10,5 @@ namespace CFLSuite.DataContracts.Models
     {
         public int ThrowID { get; set; }
         public string Description { get; set; }
-        public int ParticipantID { get; set; }
     }
 }

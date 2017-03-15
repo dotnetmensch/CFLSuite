@@ -21,8 +21,8 @@
     {
         cols.Bound(c => c.WinningParticipantID).ClientTemplate("#=WinningPlayerName#")
             .EditorTemplateName("ParticipantDropDown")
-            .EditorViewData(new { betID = Model.BetID });
-        cols.Bound(c => c.PrizeDescription).EditorTemplateName("TextInput");
+            .EditorViewData(new { betID = Model.BetID }).Width(100);
+        cols.Bound(c => c.PrizeDescription).EditorTemplateName("TextInput").Width(200);
         cols.Command(c =>
         {
             c.Edit().UpdateText("Save");

@@ -13,17 +13,20 @@
                 .NoRecords("No Bets")
                 .Columns(col =>
                 {
-                    col.Bound(c => c.BetStarted).EditorTemplateName("DateTimeEditor");
+                    col.Bound(c => c.BetStarted).EditorTemplateName("DateTimeEditor").Width(200);
                     col.Bound(c => c.Description)
-                        .ClientTemplate($"<a href='{Url.Action("BetSummary", "Bet", new { betID = "#=BetID#" })}'>#=Description#</a>")
+                        .ClientTemplate($"<a title='View Summary' href='{Url.Action("BetSummary", "Bet", new { betID = "#=BetID#" })}'>#=Description#</a>")
                         .EditorTemplateName("TextInput");
-                    col.Bound(c => c.WinnerName);
+                    col.Bound(c => c.WinnerName).Width(150);
+                    col.Template(t => { }).ClientTemplate($"<a title='View Redemptions' href='{Url.Action("RedemptionBets", "Bet", new { betID = "#=BetID#" })}'>View Redemptions</a>")
+                        .Width(150);
                     col.Command(c =>
                     {
-                        c.Edit();
-                        c.Custom("editBet").Text("Add/Edit Participants").Click("onAddParticipantsClick")
-                            .HtmlAttributes(new { data_url = Url.Action("EditBet", "Bet") });
+                        c.Edit().UpdateText("Save");
+                        c.Destroy();
                     });
+                    col.Command(c => c.Custom("editBet").Text("Add/Edit Participants").Click("onAddParticipantsClick")
+                            .HtmlAttributes(new { data_url = Url.Action("EditBet", "Bet") })).Width(200);
                 })
                 .Scrollable()
                 .Resizable(r => r.Columns(true))
@@ -37,6 +40,7 @@
                     .Read(r => r.Action("GetBetGridModels", "Bet"))
                     .Create(c => c.Action("SaveBetGridModel", "Bet"))
                     .Update(u => u.Action("SaveBetGridModel", "Bet"))
+                    .Destroy(d => d.Action("DeleteBetGridModel", "Bet"))
                     .Model(m =>
                     {
                         m.Id(i => i.BetID);

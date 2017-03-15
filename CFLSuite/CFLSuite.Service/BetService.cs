@@ -24,9 +24,9 @@ namespace CFLSuite.Service
             return new BetAccessor().GetBet(id);
         }
 
-        public List<RedeemedThrowModel> GetRedeemedThrowModels(int betID)
+        public List<RedeemedThrowModel> GetRedeemedThrowModels(int playerID, int betID)
         {
-            return new ThrowAccessor().GetRedeemedThrowModels(betID);
+            return new ThrowAccessor().GetRedeemedThrowModels(playerID, betID);
         }
 
         public BetGridModel SaveBetGridModel(BetGridModel model)
@@ -34,9 +34,9 @@ namespace CFLSuite.Service
             return new BetAccessor().SaveBetGridModel(model);
         }
 
-        public List<RedemptionModel> GetRedemptionsByParentBet(int betID)
+        public List<RedemptionModel> GetBetsByParentBet(int betID)
         {
-            return new BetAccessor().GetRedemptionsByParentBet(betID);
+            return new BetAccessor().GetBetsByParentBet(betID);
         }
 
         public List<ThrowModel> GetThrowModels(int participantID)
@@ -56,11 +56,14 @@ namespace CFLSuite.Service
             var throwEngine = new ThrowEngine();
             var throwAccessor = new ThrowAccessor();
             var betEngine = new BetEngine();
+            var betAccessor = new BetAccessor();
+            var parentBet = betAccessor.GetBetByParticipant(model.ParticipantID);
+
             using (var scope = new TransactionScope())
             {
                 var savedThrow = throwAccessor.SaveThrow(throwEngine.BuildThrow(model));
-                var betsToAdd = betEngine.BuildBets(savedThrow, model.RedemptionBets);
-                var betAccessor = new BetAccessor();
+                var betsToAdd = betEngine.BuildBets(savedThrow, model.RedemptionBets, parentBet.BetID);
+               
                 foreach (var bet in betsToAdd)
                 {
                     betAccessor.AddNewBetWithNewParticipants(bet);
@@ -88,6 +91,11 @@ namespace CFLSuite.Service
             return new BetAccessor().SaveParticipantModel(model);
         }
 
+        public List<Player> GetBetParticipantPlayers(int betID)
+        {
+            return new BetAccessor().GetBetParticipantPlayers(betID);
+        }
+
         public List<ParticipantModel> GetBetParticipantModels(int betID)
         {
             return new BetAccessor().GetBetParticipantModels(betID);
@@ -100,12 +108,17 @@ namespace CFLSuite.Service
 
         public List<Player> GetAllPlayersForBet(int betID)
         {
-            return new BetAccessor().GetAllPlayersForBet(betID);
+            return new BetAccessor().GetAllPlayersForRedemption(betID);
         }
 
         public List<PlayerPrizeModel> GetPlayerPrizeModels(int betID, int playerID)
         {
             return new BetAccessor().GetPlayerPrizeModels(betID, playerID);
+        }
+
+        public RedemptionModel DeleteRedemptionModel(RedemptionModel model)
+        {
+            return new BetAccessor().DeleteRedemptionModel(model);
         }
     }
 }

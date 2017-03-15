@@ -44,6 +44,11 @@ namespace CFLSuite.Data
                 .WithMany(e => e.Bets)
                 .HasForeignKey(e => e.ThrowID);
 
+            modelBuilder.Entity<Bet>()
+                .HasOptional(e => e.ParentBet)
+                .WithMany(e => e.ChildBets)
+                .HasForeignKey(e => e.ParentBetID);
+
             
             base.OnModelCreating(modelBuilder);
         }

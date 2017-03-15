@@ -86,7 +86,6 @@ namespace CFLSuite.DataContracts
             {
                 ThrowID = x.ThrowID,
                 Description = x.ThrowType.Description + ". " + x.Notes,
-                ParticipantID = x.ParticipantID
             });
         }
 
@@ -97,10 +96,11 @@ namespace CFLSuite.DataContracts
                 BetID = x.BetID,
                 BetStarted = x.BetStarted,
                 Description = x.Description,
-                ParticipantID = x.Throw.ParticipantID,
-                ParticipantName = x.Throw.Participant.Player.Name,
+                PlayerID = x.Throw.Participant.PlayerID,
+                PlayerName = x.Throw.Participant.Player.Name,
                 ThrowID = (int)x.ThrowID,
-                ThrowDescription = x.Throw.ThrowType.Description
+                ThrowDescription = x.Throw.ThrowType.Description,
+                ParentBetID = (int)x.ParentBetID
             });
         }
 
@@ -112,6 +112,17 @@ namespace CFLSuite.DataContracts
                 PlayerName = x.WinningParticipant.Player.Name,
                 Prize = x.PrizeDescription
             });
+        }
+
+        public static Bet GetTopParentBet(this IQueryable<Bet> bets, int betID)
+        {
+            var bet = bets.First(x => x.BetID == betID);
+            if (bet.ParentBetID != null)
+            {
+                return bets.GetTopParentBet(bet.ParentBetID.Value);
+            }
+
+            return bet;
         }
     }
 }

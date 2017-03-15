@@ -24,7 +24,7 @@
     </div>
     <div class="row top-buffer">
         <div class="col-xs-12 text-right">
-            @Html.Kendo().Button().Name("redemptions").Content("Redemptions").Tag("a").HtmlAttributes(new { href = Url.Action("Index", "Redemption", new { betID = Model.BetID }) })
+            @Html.Kendo().Button().Name("redemptions").Content("Redemptions").Tag("a").HtmlAttributes(new { href = Url.Action("RedemptionBets", "Bet", new { betID = Model.BetID }) })
             @Html.Kendo().Button().Name("betSummary").Content("Bet Summary").Tag("a").HtmlAttributes(new { @class = "k-primary", href = Url.Action("BetSummary", "Bet", new { betID = Model.BetID})})
         </div>
     </div>
