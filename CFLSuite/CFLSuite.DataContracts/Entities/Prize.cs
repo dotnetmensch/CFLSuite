@@ -1,7 +1,10 @@
-﻿namespace CFLSuite.DataContracts.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace CFLSuite.DataContracts.Entities
 {
     public class Prize
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PrizeID { get; set; }
         public int WinningParticipantID { get; set; }
         public int LosingParticipantID { get; set; }

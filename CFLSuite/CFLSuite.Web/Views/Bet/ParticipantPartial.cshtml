@@ -19,8 +19,8 @@
                     })
                     .Columns(cols =>
                     {
-                        cols.Bound(c => c.PlayerID).ClientTemplate("#=PlayerName#").EditorTemplateName("PlayerDropDown");
-                        cols.Bound(c => c.Winner).EditorTemplateName("CheckBoxInput");
+                        cols.Bound(c => c.PlayerID).ClientTemplate("#=PlayerName#").EditorTemplateName("PlayerDropDown").Width(150);
+                        cols.Bound(c => c.Winner).EditorTemplateName("CheckBoxInput").Width(100);
                         cols.Command(c =>
                         {
                             c.Edit().UpdateText("Save");
@@ -32,7 +32,7 @@
                         .Create(c => c.Action("SaveParticpant", "Bet"))
                         .Update(u => u.Action("SaveParticpant", "Bet"))
                         .Destroy(d => d.Action("DeleteParticipant", "Bet"))
-                        .Read(r => r.Action("GetBetParticipants", "Bet", new { id = Model.BetID }))
+                        .Read(r => r.Action("GetBetParticipants", "Bet", new { betID = Model.BetID }))
                         .Model(m =>
                         {
                             m.Id(i => i.ParticipantID);

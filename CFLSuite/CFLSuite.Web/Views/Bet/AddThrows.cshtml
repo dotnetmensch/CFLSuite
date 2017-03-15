@@ -21,9 +21,9 @@
                 .Columns(cols =>
                 {
                     cols.Bound(c => c.ThrowTypeID).ClientTemplate("#=ThrowTypeDescription#").EditorTemplateName("ThrowTypeDropDown");
-                    cols.Bound(c => c.Success).EditorTemplateName("CheckBoxInput");
+                    cols.Bound(c => c.Success).EditorTemplateName("CheckBoxInput").Width(100);
                     cols.Bound(c => c.Notes).EditorTemplateName("TextInput");
-                    cols.Bound(c => c.RedemptionBets).EditorTemplateName("IntegerInput");
+                    cols.Bound(c => c.RedemptionBets).EditorTemplateName("IntegerInput").Width(100);
                     cols.Command(c =>
                     {
                         c.Edit().UpdateText("Save");

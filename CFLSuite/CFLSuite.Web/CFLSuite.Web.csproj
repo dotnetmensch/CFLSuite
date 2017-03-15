@@ -131,7 +131,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PlayerController.cs" />
     <Compile Include="Controllers\PrizeController.cs" />
-    <Compile Include="Controllers\RedemptionController.cs" />
     <Compile Include="Controllers\ThrowTypeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -590,6 +589,7 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\app\BetIndex.js" />
     <Content Include="Scripts\app\EditBet.js" />
+    <Content Include="Scripts\app\RedemptionBets.js" />
     <Content Include="Scripts\app\utility.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -880,11 +880,12 @@
     <Content Include="Views\Bet\EditBet.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\CheckBoxInput.cshtml" />
     <Content Include="Views\Bet\AddPayouts.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\ParticipantDropDown.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\RedemptionPlayerDropDown.cshtml" />
     <Content Include="Views\Bet\BetSummary.cshtml" />
-    <Content Include="Views\Redemption\Index.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\RedeemedThrowDropdown.cshtml" />
+    <Content Include="Views\Bet\RedemptionBets.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ThrowDropdown.cshtml" />
     <Content Include="Views\Bet\ParticipantPartial.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ParticipantDropDown.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Site.css" />

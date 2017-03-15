@@ -122,19 +122,27 @@ namespace CFLSuite.Web.Controllers
             return Json(new[] {result}.ToDataSourceResult(req, ModelState));
         }
 
-        [HttpPost]
-        public ActionResult GetBetParticipants([DataSourceRequest] DataSourceRequest req, int id)
+        [HttpGet]
+        public ActionResult GetBetParticipantPlayers(int betID)
         {
-            var result = new List<ParticipantModel>();
-            result = new BetService().GetBetParticipantModels(id);
-            return Json(result.ToDataSourceResult(req));
+            var result = new List<Player>();
+            result = new BetService().GetBetParticipantPlayers(betID);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public ActionResult GetBetParticipants(int betID)
         {
-            var result = new BetService().GetBetParticipantModels(betID);
+            var result = new List<ParticipantModel>();
+            result = new BetService().GetBetParticipantModels(betID);
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult GetBetParticipants([DataSourceRequest] DataSourceRequest req, int betID)
+        {
+            var result = new BetService().GetBetParticipantModels(betID);
+            return Json(result.ToDataSourceResult(req));
         }
 
         [HttpPost]
@@ -167,6 +175,56 @@ namespace CFLSuite.Web.Controllers
             return Json(result.ToDataSourceResult(req));
         }
 
+        [HttpGet]
+        public ActionResult RedemptionBets(int betID)
+        {
+            return View(betID);
+        }
 
+        [HttpGet]
+        public ActionResult GetRedeemedThrowModels(int playerID, int betID)
+        {
+            var result = new BetService().GetRedeemedThrowModels(playerID, betID);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult GetBetsByParentBet([DataSourceRequest]DataSourceRequest req, int betID)
+        {
+            var result = new BetService().GetBetsByParentBet(betID);
+            return Json(result.ToDataSourceResult(req));
+        }
+
+        [HttpPost]
+        public ActionResult SaveRedemptionModel([DataSourceRequest]DataSourceRequest req, RedemptionModel model)
+        {
+            var result = model;
+            try
+            {
+                result = new BetService().SaveRedemptionModel(model);
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("Error", e.Message);
+            }
+
+            return Json(new[] { result }.ToDataSourceResult(req, ModelState));
+        }
+
+        [HttpPost]
+        public ActionResult DeleteRedemptionModel([DataSourceRequest]DataSourceRequest req, RedemptionModel model)
+        {
+            var result = model;
+            try
+            {
+                result = new BetService().DeleteRedemptionModel(model);
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("Error", e.Message);
+            }
+
+            return Json(new[] { result }.ToDataSourceResult(req, ModelState));
+        }
     }
 }

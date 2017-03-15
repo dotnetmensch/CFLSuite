@@ -1,0 +1,49 @@
+﻿@using CFLSuite.DataContracts.Models
+@model int
+@{
+    ViewBag.Title = "Redemptions";
+}
+
+<h2>Redemptions</h2>
+<input type="hidden" id="BetID" value="@Model" />
+
+@(Html.Kendo().Grid<RedemptionModel>()
+    .Name("redemptionGrid")
+    .Scrollable()
+    .Resizable(r => r.Columns(true))
+    .ColumnMenu()
+    .Filterable()
+    .Sortable()
+    .NoRecords("No Redemptions")
+    .Editable(e => e.Mode(GridEditMode.InLine))
+    .Columns(cols =>
+    {
+        cols.Bound(c => c.BetStarted).EditorTemplateName("DateTimeEditor").Width(200);
+        cols.Bound(c => c.Description).EditorTemplateName("TextInput");
+        cols.Bound(c => c.PlayerID).ClientTemplate("#=PlayerName#").EditorTemplateName("RedemptionPlayerDropDown").Width(150);
+        cols.Bound(c => c.ThrowID).ClientTemplate("#=ThrowDescription#").EditorTemplateName("ThrowDropDown");
+        cols.Command(c =>
+        {
+            c.Edit().UpdateText("Save");
+            c.Destroy();
+        });
+        cols.Command(c => c.Custom("editBet").Text("Add/Edit Participants").Click("onAddParticipantsClick")
+                .HtmlAttributes(new { data_url = Url.Action("EditBet", "Bet") })).Width(200);
+    })
+    .ToolBar(t =>
+    {
+        t.Create().Text("Add new redemption");
+    })
+    .DataSource(ds => ds.Ajax()
+        .Read(r => r.Action("GetBetsByParentBet", "Bet", new { betID = Model }))
+        .Update(u => u.Action("SaveRedemptionModel", "Bet"))
+        .Create(c => c.Action("SaveRedemptionModel", "Bet"))
+        .Destroy(d => d.Action("DeleteRedemptionModel", "Bet"))
+        .Model(m =>
+        {
+            m.Id(i => i.BetID);
+            m.Field(f => f.ParentBetID).DefaultValue(Model);
+        })
+        .Events(e => e.Error("onGridError"))
+    )
+)

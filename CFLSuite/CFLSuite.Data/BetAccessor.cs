@@ -19,7 +19,7 @@ namespace CFLSuite.Data
             var result = new List<BetGridModel>();
             using (var db = new CFLSuiteDB())
             {
-                result = db.Bets.Where(x => x.ThrowID == null).ToBetGridModel().ToList();
+                result = db.Bets.Where(x => x.ParentBetID == null).ToBetGridModel().ToList();
             }
             return result;
         }
@@ -66,27 +66,64 @@ namespace CFLSuite.Data
                     dataModel.BetStarted = model.BetStarted;
                     dataModel.Description = model.Description;
                     dataModel.ThrowID = model.ThrowID;
+                    dataModel.ParentBetID = model.ParentBetID;
+                    var participant = db.Participants.FirstOrDefault(x => x.BetID == model.BetID && x.PlayerID == model.PlayerID);
+                    if(participant == null)
+                    {
+                        participant = new Participant
+                        {
+                            PlayerID = model.PlayerID,
+                            Winner = false,
+                        };
+
+                        dataModel.Participants.Add(participant);
+                    }
                 }
                 else
                 {
-                    var playerID = db.Participants.First(x => x.ParticipantID == model.ParticipantID).PlayerID;
                     dataModel = new Bet
                     {
                         BetStarted = model.BetStarted,
                         Description = model.Description,
                         ThrowID = model.ThrowID,
+                        ParentBetID = model.ParentBetID,
                         Participants = new List<Participant>()
                         {
                             new Participant
                             {
-                                PlayerID = playerID,
+                                PlayerID = model.PlayerID,
                                 Winner = false
                             }
                         }
                     };
+
+                    db.Bets.Add(dataModel);
                 }
                 db.SaveChanges();
                 result = db.Bets.Where(x => x.BetID == dataModel.BetID).ToRedemptionModel().First();
+            }
+
+            return result;
+        }
+
+        public List<ParticipantModel> GetBetParticipantModels(int betID)
+        {
+            var result = new List<ParticipantModel>();
+            using (var db = new CFLSuiteDB())
+            {
+                result = db.Participants.Where(x => x.BetID == betID).ToParticipantModels().ToList();
+            }
+
+            return result;
+        }
+
+        public RedemptionModel DeleteRedemptionModel(RedemptionModel  model)
+        {
+            var result = model;
+            using (var db = new CFLSuiteDB())
+            {
+                var existing = db.Bets.First(x => x.BetID == model.BetID);
+                db.Bets.Remove(existing);
             }
 
             return result;
@@ -97,9 +134,9 @@ namespace CFLSuite.Data
             var result = new List<Player>();
             using (var db = new CFLSuiteDB())
             {
-                result = db.Players.Where(x => x.Participants.Any(y => y.BetID == betID ||
-                    y.Throws.Any(z => z.Bets.Any(a => a.BetID == betID))))
-                    .ToList();
+                var betIDs = GetAllAssociatedBets(db, betID).Select(x => x.BetID);
+
+                result = db.Players.Where(x => x.Participants.Any(y => betIDs.Contains(y.BetID))).ToList();
             }
 
             return result;
@@ -110,28 +147,41 @@ namespace CFLSuite.Data
             var result = new List<PlayerPrizeModel>();
             using (var db = new CFLSuiteDB())
             {
-                result = db.Prizes.Where(x => (x.LosingParticipant.PlayerID == playerID &&
-                    x.LosingParticipant.BetID == betID) ||
-                    (x.LosingParticipant.PlayerID == playerID &&
-                    x.LosingParticipant.Throws.Any(y => y.Bets.Any(z => z.BetID == betID))))
-                    .ToPlayerPrizeModel()
-                    .ToList();
+                var betIDs = GetAllAssociatedBets(db, betID).Select(x => x.BetID);
+
+                result = db.Prizes.Where(x => x.LosingParticipant.PlayerID == playerID && betIDs.Contains(x.LosingParticipant.BetID)).ToPlayerPrizeModel().ToList();
             }
 
             return result;
         }
 
-        public List<RedemptionModel> GetRedemptionsByParentBet(int betID)
+        public List<Bet> GetAllAssociatedBets(CFLSuiteDB db, int betID)
+        {
+            var parentBet = db.Bets.GetTopParentBet(betID);
+            var result = GetAllChildBets(db, parentBet.BetID).ToList();
+            result.Add(parentBet);
+            result.AddRange(GetAllChildBets(db, parentBet.BetID));
+            return result;
+        }
+
+        public List<Bet> GetAllChildBets(CFLSuiteDB db, int betID)
+        {
+            var result = new List<Bet>();
+            var bets = db.Bets.Where(x => x.ParentBetID == betID).ToList();
+            result.AddRange(bets);
+            foreach (var bet in bets)
+            {
+                result.AddRange(GetAllChildBets(db, bet.BetID));
+            }
+            return result;   
+        }
+
+        public List<RedemptionModel> GetBetsByParentBet(int betID)
         {
             var result = new List<RedemptionModel>();
             using (var db = new CFLSuiteDB())
             {
-                var throws = db.Throws.Where(x => x.Participant.BetID == betID);
-                result = (from t in throws
-                          join b in db.Bets
-                          on t.ThrowID equals b.ThrowID
-                          where b.ThrowID != null
-                              select b).ToRedemptionModel().ToList();
+                result = db.Bets.Where(x => x.ParentBetID == betID).ToRedemptionModel().ToList();
             }
 
             return result;
@@ -200,12 +250,12 @@ namespace CFLSuite.Data
             return result;
         }
 
-        public List<ParticipantModel> GetBetParticipantModels(int betID)
+        public List<Player> GetBetParticipantPlayers(int betID)
         {
-            var result = new List<ParticipantModel>();
+            var result = new List<Player>();
             using (var db = new CFLSuiteDB())
             {
-                result = db.Participants.Where(x => x.BetID == betID).ToParticipantModels().ToList();
+                result = db.Players.Where(x => x.Participants.Any(y => y.BetID == betID)).ToList();
             }
             return result;
         }

@@ -35,12 +35,13 @@ namespace CFLSuite.Data
             return result;
         }
 
-        public List<RedeemedThrowModel> GetRedeemedThrowModels(int betID)
+        public List<RedeemedThrowModel> GetRedeemedThrowModels(int playerID, int betID)
         {
             var result = new List<RedeemedThrowModel>();
             using (var db = new CFLSuiteDB())
             {
-                result = db.Throws.Where(x => x.Bets.Any(y => y.BetID == betID)).ToRedeemedThrowModels().ToList();
+                result = db.Throws.Where(x => x.Participant.BetID == betID && x.Participant.PlayerID == playerID)
+                    .ToRedeemedThrowModels().ToList();
             }
 
             return result;

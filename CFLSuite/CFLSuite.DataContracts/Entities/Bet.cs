@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace CFLSuite.DataContracts.Entities
             Participants = new List<Participant>();
             ChildBets = new List<Bet>();
         }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int BetID { get; set; }
         public string Description { get; set; }
         public DateTime BetStarted { get; set; }

@@ -1,0 +1,10 @@
+﻿@model int
+
+@(Html.Kendo().DropDownListFor(m => m)
+    .DataTextField("Description")
+    .DataValueField("ThrowID")
+    .OptionLabel("Select a throw")
+    .AutoBind(false)
+    .Enable(false)
+    .DataSource(ds => ds.Read(r => r.Action("GetRedeemedThrowModels", "Bet").Data("onThrowDropDownData")).ServerFiltering(true)
+    ))
