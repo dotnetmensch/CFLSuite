@@ -19,7 +19,9 @@ namespace CFLSuite.Data
             var result = new List<BetGridModel>();
             using (var db = new CFLSuiteDB())
             {
-                result = db.Bets.Where(x => x.ParentBetID == null).ToBetGridModel().ToList();
+                result = db.Bets.Where(x => x.ParentBetID == null)
+                    .OrderByDescending(x => x.BetStarted)
+                    .ToBetGridModel().ToList();
             }
             return result;
         }
@@ -181,7 +183,11 @@ namespace CFLSuite.Data
             var result = new List<RedemptionModel>();
             using (var db = new CFLSuiteDB())
             {
-                result = db.Bets.Where(x => x.ParentBetID == betID).ToRedemptionModel().ToList();
+                var topParentBet = db.Bets.GetTopParentBet(betID);
+                var betIDs = GetAllChildBets(db, topParentBet.BetID).Select(x => x.BetID);
+                result = db.Bets.Where(x => betIDs.Contains(x.BetID))
+                    .OrderByDescending(x => x.BetStarted)
+                    .ToRedemptionModel().ToList();
             }
 
             return result;

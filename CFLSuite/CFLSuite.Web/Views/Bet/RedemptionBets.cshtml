@@ -9,7 +9,6 @@
 
 @(Html.Kendo().Grid<RedemptionModel>()
     .Name("redemptionGrid")
-    .Scrollable()
     .Resizable(r => r.Columns(true))
     .ColumnMenu()
     .Filterable()
@@ -26,7 +25,7 @@
         {
             c.Edit().UpdateText("Save");
             c.Destroy();
-        });
+        }).Width(200);
         cols.Command(c => c.Custom("editBet").Text("Add/Edit Participants").Click("onAddParticipantsClick")
                 .HtmlAttributes(new { data_url = Url.Action("EditBet", "Bet") })).Width(200);
     })

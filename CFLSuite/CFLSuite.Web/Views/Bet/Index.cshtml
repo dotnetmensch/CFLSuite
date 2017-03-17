@@ -24,11 +24,11 @@
                     {
                         c.Edit().UpdateText("Save");
                         c.Destroy();
-                    });
+                    }).Width(200);
                     col.Command(c => c.Custom("editBet").Text("Add/Edit Participants").Click("onAddParticipantsClick")
                             .HtmlAttributes(new { data_url = Url.Action("EditBet", "Bet") })).Width(200);
                 })
-                .Scrollable()
+                .Pageable()
                 .Resizable(r => r.Columns(true))
                 .ColumnMenu()
                 .Filterable()
@@ -37,6 +37,7 @@
                 .Editable(e => e.Mode(GridEditMode.InLine))
                 .ToolBar(t => t.Create().Text("Add Bet"))
                 .DataSource(ds => ds.Ajax()
+                    .PageSize(50)
                     .Read(r => r.Action("GetBetGridModels", "Bet"))
                     .Create(c => c.Action("SaveBetGridModel", "Bet"))
                     .Update(u => u.Action("SaveBetGridModel", "Bet"))

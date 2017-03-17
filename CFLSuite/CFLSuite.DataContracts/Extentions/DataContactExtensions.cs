@@ -85,7 +85,7 @@ namespace CFLSuite.DataContracts
             return throws.Select(x => new RedeemedThrowModel
             {
                 ThrowID = x.ThrowID,
-                Description = x.ThrowType.Description + ". " + x.Notes,
+                Description = x.ThrowType.Description + ". Success: " + x.Success.ToString() + " " + x.Notes,
             });
         }
 
