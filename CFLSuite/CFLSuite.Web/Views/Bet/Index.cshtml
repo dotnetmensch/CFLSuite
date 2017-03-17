@@ -46,6 +46,7 @@
                     {
                         m.Id(i => i.BetID);
                         m.Field(f => f.WinnerName).Editable(false);
+                        m.Field(f => f.BetStarted).DefaultValue(DateTime.Now);
                     })
                     .Events(e => e.Error("onGridError"))
                 )

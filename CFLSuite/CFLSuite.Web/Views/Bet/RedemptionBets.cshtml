@@ -42,6 +42,7 @@
         {
             m.Id(i => i.BetID);
             m.Field(f => f.ParentBetID).DefaultValue(Model);
+            m.Field(f => f.BetStarted).DefaultValue(DateTime.Now);
         })
         .Events(e => e.Error("onGridError"))
     )
