@@ -43,7 +43,7 @@ namespace CFLSuite.Data
                 {
                     dataModel = new Bet
                     {
-                        BetStarted = model.BetStarted,
+                        BetStarted = model.BetStarted.ToUniversalTime(),
                         Description = model.Description
                     };
                     db.Bets.Add(dataModel);

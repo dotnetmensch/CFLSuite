@@ -42,7 +42,7 @@
         {
             m.Id(i => i.BetID);
             m.Field(f => f.ParentBetID).DefaultValue(Model);
-            m.Field(f => f.BetStarted).DefaultValue(DateTime.Now);
+            m.Field(f => f.BetStarted).DefaultValue(DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc));
         })
         .Events(e => e.Error("onGridError"))
     )
